@@ -1,4 +1,4 @@
-# RISE Retreat Website
+# Retraiterise - RISE Retreat Website
 
 ## Alta Font Setup Guide
 
@@ -11,4 +11,4 @@
 2. **Create the fonts directory**:
    ```bash
    mkdir -p public/fonts
-
+   ```
