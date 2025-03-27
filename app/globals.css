@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 43 77% 52%;
+    --primary-foreground: 152 82% 11%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 43 77% 52%;
+    --radius: 0rem;
+  }
+
+  .dark {
+    --background: 152 82% 11%;
+    --foreground: 210 40% 98%;
+    --card: 152 82% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 152 82% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 43 77% 52%;
+    --primary-foreground: 152 82% 11%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 43 77% 52%;
+  }
+}
+
+/* Custom font styles - Alta font */
+@font-face {
+  font-family: "Alta";
+  src: url("/fonts/alta.woff2") format("woff2"), url("/fonts/alta.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Apply Alta font to all headings with fallback */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Alta", "Optima", "Trajan Pro", serif;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  /* Optimize images */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Custom class for Alta font with fallback */
+.font-alta {
+  font-family: "Alta", "Optima", "Trajan Pro", serif !important;
+}
+
+/* Smooth transitions */
+a,
+button {
+  transition: all 0.3s ease;
+}
+
+section {
+  transition: background-color 0.5s ease;
+}
+
+img {
+  transition: transform 0.5s ease;
+}
+
+/* Responsive optimizations */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 3rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Add custom gold filter for icons */
+.invert {
+  filter: brightness(0) invert(1);
+}
+
+.gold-filter {
+  filter: invert(70%) sepia(38%) saturate(1151%) hue-rotate(5deg) brightness(89%) contrast(86%);
+}
+
+/* Bouncing animation for brain icon */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bounce-effect {
+  animation: bounce 0.8s ease infinite;
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Radial gradient for activities */
+@layer utilities {
+  .bg-gradient-radial {
+    background-image: radial-gradient(var(--tw-gradient-stops));
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
