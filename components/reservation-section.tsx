@@ -28,7 +28,7 @@ export function ReservationSection() {
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Places:</span>
-                <span>Limitées à 20 participants</span>
+                <span>Limitées à 15 participants</span>
               </div>
             </div>
 
@@ -57,7 +57,7 @@ export function ReservationSection() {
             <div className="space-y-6 text-white">
               <div className="flex items-start">
                 <div className="text-[#D4AF37] text-2xl mr-4">•</div>
-                <p>Places limitées à 20 participants pour garantir une expérience personnalisée</p>
+                <p>Places limitées à 15 participants pour garantir une expérience personnalisée</p>
               </div>
 
               <div className="flex items-start">
@@ -92,4 +92,3 @@ export function ReservationSection() {
     </section>
   )
 }
-
