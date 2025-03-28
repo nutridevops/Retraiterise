@@ -67,93 +67,95 @@ export function ContactFormSection() {
   }
 
   return (
-    <section id="contact" className="bg-[#f5f2ea] py-24">
+    <section id="contact" className="bg-[#0A291C] py-24">
       <div className="container mx-auto px-4">
-        <h2 className="font-alta text-4xl sm:text-5xl md:text-6xl text-[#0A291C] text-center mb-16">CONTACTEZ-NOUS</h2>
+        <h2 className="font-alta text-4xl sm:text-5xl md:text-6xl text-[#D4AF37] text-center mb-16">CONTACTEZ-NOUS</h2>
 
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <div className="max-w-3xl mx-auto">
           {isSuccess ? (
-            <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-md mb-6">
+            <div className="bg-green-900 border border-[#D4AF37] text-[#D4AF37] p-4 rounded-md mb-6">
               <p>Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.</p>
             </div>
           ) : null}
 
           {error ? (
-            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-6">
+            <div className="bg-red-900 border border-red-500 text-white p-4 rounded-md mb-6">
               <p>{error}</p>
             </div>
           ) : null}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-[#0A291C] font-medium mb-1">
+              <label htmlFor="name" className="block text-[#D4AF37] font-medium mb-1">
                 Nom complet
               </label>
               <input
                 id="name"
                 type="text"
                 {...register("name")}
-                className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.name ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-4 py-3 bg-[#111] border rounded-none focus:outline-none focus:border-[#D4AF37] ${
+                  errors.name ? "border-red-500" : "border-[#D4AF37]"
+                } text-white`}
                 placeholder="Votre nom"
               />
-              {errors.name && <p className="mt-1 text-red-500 text-sm">{errors.name.message}</p>}
+              {errors.name && <p className="mt-1 text-red-400 text-sm">{errors.name.message}</p>}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="email" className="block text-[#D4AF37] font-medium mb-1">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  {...register("email")}
+                  className={`w-full px-4 py-3 bg-[#111] border rounded-none focus:outline-none focus:border-[#D4AF37] ${
+                    errors.email ? "border-red-500" : "border-[#D4AF37]"
+                  } text-white`}
+                  placeholder="votre@email.com"
+                />
+                {errors.email && <p className="mt-1 text-red-400 text-sm">{errors.email.message}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="block text-[#D4AF37] font-medium mb-1">
+                  Téléphone (optionnel)
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  {...register("phone")}
+                  className={`w-full px-4 py-3 bg-[#111] border rounded-none focus:outline-none focus:border-[#D4AF37] ${
+                    errors.phone ? "border-red-500" : "border-[#D4AF37]"
+                  } text-white`}
+                  placeholder="Votre numéro de téléphone"
+                />
+                {errors.phone && <p className="mt-1 text-red-400 text-sm">{errors.phone.message}</p>}
+              </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-[#0A291C] font-medium mb-1">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                {...register("email")}
-                className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="votre@email.com"
-              />
-              {errors.email && <p className="mt-1 text-red-500 text-sm">{errors.email.message}</p>}
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-[#0A291C] font-medium mb-1">
-                Téléphone
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                {...register("phone")}
-                className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.phone ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="Votre numéro de téléphone"
-              />
-              {errors.phone && <p className="mt-1 text-red-500 text-sm">{errors.phone.message}</p>}
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-[#0A291C] font-medium mb-1">
+              <label htmlFor="message" className="block text-[#D4AF37] font-medium mb-1">
                 Message
               </label>
               <textarea
                 id="message"
                 {...register("message")}
                 rows={5}
-                className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.message ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-4 py-3 bg-[#111] border rounded-none focus:outline-none focus:border-[#D4AF37] ${
+                  errors.message ? "border-red-500" : "border-[#D4AF37]"
+                } text-white`}
                 placeholder="Votre message..."
               ></textarea>
-              {errors.message && <p className="mt-1 text-red-500 text-sm">{errors.message.message}</p>}
+              {errors.message && <p className="mt-1 text-red-400 text-sm">{errors.message.message}</p>}
             </div>
 
             <div className="text-center">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-block bg-[#0A291C] text-white px-8 py-4 rounded-md text-lg tracking-wide hover:bg-[#0A291C]/80 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="inline-block bg-[#D4AF37] text-[#0A291C] font-bold px-8 py-3 text-lg tracking-wide hover:bg-[#c29c3d] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
@@ -161,11 +163,20 @@ export function ContactFormSection() {
                     Envoi en cours...
                   </>
                 ) : (
-                  "Envoyer le message"
+                  "Envoyer"
                 )}
               </button>
             </div>
           </form>
+          
+          <div className="mt-12 text-center">
+            <p className="text-[#D4AF37]/70 text-sm">
+              Pour toute question ou information supplémentaire, n'hésitez pas à nous contacter à{" "}
+              <a href="mailto:info.neuroperformancetraining@gmail.com" className="text-[#D4AF37] hover:underline">
+                info.neuroperformancetraining@gmail.com
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </section>
