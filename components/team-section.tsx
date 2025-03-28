@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { Instagram } from "lucide-react"
 
 export function TeamSection() {
   const team = [
@@ -9,6 +10,8 @@ export function TeamSection() {
       description:
         "Fondatrice de la méthode SWING et experte en neuroperformance et neurosciences appliquées, Laetitia vous guidera dans un voyage intérieur pour mieux comprendre et exploiter les capacités extraordinaires de votre cerveau-tête.",
       image: "/images/team-letitia.png",
+      instagram: "@laetitia.neuroperformance",
+      instagramUrl: "https://www.instagram.com/laetitia.neuroperformance/"
     },
     {
       number: 2,
@@ -17,6 +20,8 @@ export function TeamSection() {
       description:
         "Spécialiste du neurofitness et du bien-être, Sandra vous accompagnera dans des exercices physiques et mentaux conçus pour renforcer la connexion entre votre corps et votre esprit, optimisant ainsi votre résilience et votre énergie.",
       image: "/images/team-sandra.png",
+      instagram: "@sandrafitabla",
+      instagramUrl: "https://www.instagram.com/sandrafitabla/"
     },
     {
       number: 3,
@@ -25,6 +30,8 @@ export function TeamSection() {
       description:
         "Nutritionniste spécialisé dans l'approche neuro-nutritionnelle, Chris vous enseignera comment nourrir votre cerveau intestinal pour améliorer votre intuition, votre clarté mentale et votre bien-être général.",
       image: "/images/team-chris.png",
+      instagram: "@epinutri",
+      instagramUrl: "https://www.instagram.com/epinutri/"
     },
   ]
 
@@ -57,6 +64,16 @@ export function TeamSection() {
               <h3 className="font-alta text-lg text-[#D4AF37] mb-1">{member.name}</h3>
               <p className="text-white/70 text-sm mb-4">{member.role}</p>
               <p className="text-[#F5F5DC]/70 text-sm font-light">{member.description}</p>
+              
+              <a 
+                href={member.instagramUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mt-4 inline-flex items-center text-[#D4AF37]/80 hover:text-[#D4AF37] transition-colors duration-300"
+              >
+                <Instagram size={16} className="mr-2" />
+                <span className="text-sm">{member.instagram}</span>
+              </a>
             </div>
           ))}
         </div>
@@ -64,4 +81,3 @@ export function TeamSection() {
     </section>
   )
 }
-
