@@ -17,10 +17,10 @@ export function ConceptSection() {
         <div className="md:col-span-1 py-20 px-6 md:px-8 bg-[#0A291C]/80 backdrop-blur-sm">
           <div className="max-w-xl">
             <h2 className="font-alta text-3xl sm:text-4xl md:text-5xl text-[#D4AF37] mb-10 tracking-wide text-center md:text-left">
-              UNE RETRAITE DE HAUT STANDING DANS UN LIEU D&apos;EXCEPTION
+              UNE RETRAITE DE HAUT STANDING EN BELGIQUE DANS UN LIEU D&apos;EXCEPTION
             </h2>
             <p className="text-[#F5F5DC] text-lg leading-relaxed mb-8 font-light">
-              Plongez au cœur d&apos;une retraite exceptionnelle de deux jours, une expérience unique pour bénéficier
+              A moins d&apos; 1 heure du centre de Bruxelles, plongez au cœur d&apos;une retraite exceptionnelle de deux jours, une expérience unique pour bénéficier
               d&apos;outils pour développer votre résilience, intuition, votre force, et votre énergie à travers
               l&apos;équilibre de vos trois cerveaux : tête, cœur et intestin.
             </p>
@@ -35,4 +35,3 @@ export function ConceptSection() {
     </section>
   )
 }
-

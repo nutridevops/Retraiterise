@@ -16,7 +16,7 @@ export function ReservationSection() {
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Lieu:</span>
-                <span>Domaine de Luxe, Paris</span>
+                <span>Domaine de Luxe, près de Bruxelles</span>
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Tarif:</span>
