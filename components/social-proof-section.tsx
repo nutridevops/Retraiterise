@@ -80,7 +80,7 @@ export function SocialProofSection() {
       gridArea: "3 / 1 / 4 / 2"
     },
     { 
-      src: "/images/logos/baob-brussels-logo.png", 
+      src: "/images/logos/baob-brussels-gold.png", 
       alt: "BAOB Brussels", 
       width: 350, 
       url: "https://baob-asbl.be/",
