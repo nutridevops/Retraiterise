@@ -71,7 +71,7 @@ export function CallToActionSection() {
         <div className="bg-[#f5f2ea] p-8 lg:p-16 relative">
           <div className="max-w-xl mx-auto">
             <h2 className="font-alta text-4xl md:text-5xl text-[#c29c3d] mb-10 text-center lg:text-left">
-              CE QUE VOUS OBTENEZ POUR 769 €
+              CE QUE VOUS OBTENEZ POUR 967 €
             </h2>
 
             <div className="space-y-6 mb-12">
@@ -98,8 +98,8 @@ export function CallToActionSection() {
 
             <div className="flex flex-col md:flex-row justify-between items-center mt-12">
               <div className="mb-6 md:mb-0">
-                <p className="text-[#0A291C]/60 text-lg line-through mb-1">VALEUR RÉELLE 985 €</p>
-                <p className="text-[#c29c3d] font-alta text-4xl">769 €</p>
+                <p className="text-[#0A291C]/60 text-lg line-through mb-1">VALEUR RÉELLE 1209 €</p>
+                <p className="text-[#c29c3d] font-alta text-4xl">967 €</p>
                 <p className="text-[#0A291C]/70 text-sm">Possibilité de payer en 2 ou 3 fois</p>
               </div>
               <a

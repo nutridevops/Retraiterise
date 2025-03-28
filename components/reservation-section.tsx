@@ -20,7 +20,7 @@ export function ReservationSection() {
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Tarif:</span>
-                <span>769€ par personne</span>
+                <span>967€ par personne</span>
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Inclus:</span>
@@ -34,8 +34,8 @@ export function ReservationSection() {
 
             <div className="mt-12">
               <p className="text-[#F5F5DC]/70 text-sm font-light">
-                <span className="text-[#D4AF37]">Note:</span> Un acompte de 30% est requis pour confirmer votre
-                réservation. Le solde devra être réglé au plus tard 30 jours avant le début de la retraite.
+                <span className="text-[#D4AF37]">Note:</span> Un acompte de 322 € est requis pour confirmer votre
+                réservation. Le solde devra être réglé au plus tard 15 jours avant le début de la retraite.
               </p>
             </div>
 
@@ -62,7 +62,7 @@ export function ReservationSection() {
 
               <div className="flex items-start">
                 <div className="text-[#D4AF37] text-2xl mr-4">•</div>
-                <p>Tarif préférentiel de 769€ au lieu de 985€ pour les inscriptions anticipées</p>
+                <p>Tarif préférentiel de 967€ au lieu de 1209€ pour les inscriptions anticipées</p>
               </div>
 
               <div className="flex items-start">
