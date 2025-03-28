@@ -79,13 +79,6 @@ export function SocialProofSection() {
       url: "#",
       gridArea: "3 / 1 / 4 / 2"
     },
-    { 
-      src: "/images/logos/baob-gold-2025.png?v=1", 
-      alt: "BAOB Brussels", 
-      width: 400, 
-      url: "https://baob-asbl.be/",
-      gridArea: "3 / 2 / 4 / 4"
-    },
   ]
 
   return (
@@ -131,11 +124,34 @@ export function SocialProofSection() {
                     width={logo.width}
                     height={100}
                     className="object-contain max-h-32 transition-transform duration-300 group-hover:scale-105"
-                    unoptimized={logo.alt === "BAOB Brussels"}
                   />
                 </Link>
               </div>
             ))}
+            
+            {/* Special handling for BAOB logo */}
+            <div
+              className="flex items-center justify-center"
+              style={{
+                transitionDelay: `${logos.length * 100}ms`,
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                transition: "opacity 0.6s ease, transform 0.6s ease",
+                gridArea: "3 / 2 / 4 / 4"
+              }}
+            >
+              <Link 
+                href="https://baob-asbl.be/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="relative h-40 w-full flex items-center justify-center p-4 bg-transparent group"
+              >
+                <div className="absolute inset-0 bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 transition-all duration-300 rounded-lg"></div>
+                <div className="w-[400px] h-[100px] bg-contain bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105" 
+                     style={{ backgroundImage: "url('/images/logos/baob-brussels-gold.png')" }}>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
 
