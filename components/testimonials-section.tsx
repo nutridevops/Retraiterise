@@ -105,7 +105,7 @@ export function TestimonialsSection() {
         </h2>
 
         {/* Desktop layout - Grid */}
-        <div className="hidden lg:grid grid-cols-2 gap-x-16 gap-y-12 max-w-6xl mx-auto">
+        <div className="hidden xl:grid grid-cols-2 gap-x-16 gap-y-12 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
@@ -140,54 +140,75 @@ export function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Mobile layout - Carousel */}
-        <div className="lg:hidden">
-          <div className="relative max-w-md mx-auto">
+        {/* Mobile and Tablet layout - Carousel */}
+        <div className="xl:hidden">
+          <div className="relative max-w-lg mx-auto" style={{ minHeight: "500px" }}>
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className={`flex flex-col items-center text-center transition-opacity duration-500 absolute inset-0 ${
-                  activeIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+                className={`flex flex-col items-center text-center transition-opacity duration-500 ${
+                  activeIndex === index ? "opacity-100 z-10 relative" : "opacity-0 z-0 absolute inset-0"
                 }`}
               >
-                <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-[#0A291C] mb-6">
+                <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-[#0A291C] mb-4 sm:mb-6">
                   <Image
                     src={testimonial.image || "/placeholder.svg"}
                     alt={testimonial.name}
                     fill
                     className={`object-cover ${imagePositions[testimonial.name] || "object-center"}`}
-                    sizes="128px"
+                    sizes="(max-width: 640px) 96px, 128px"
                     priority={index === 0}
                   />
                 </div>
-                <div className="flex items-center justify-center mb-3">
+                <div className="flex items-center justify-center mb-2 sm:mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#c29c3d] text-[#c29c3d]" />
+                    <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-[#c29c3d] text-[#c29c3d]" />
                   ))}
                 </div>
-                <h3 className="text-[#0A291C] font-medium text-lg">{testimonial.role}</h3>
-                <p className="text-[#0A291C]/80 text-sm mt-4 leading-relaxed">{testimonial.testimonial}</p>
-                <p className="text-[#c29c3d] font-alta text-lg mt-4">{testimonial.name}</p>
+                <h3 className="text-[#0A291C] font-medium text-base sm:text-lg">{testimonial.role}</h3>
+                <p className="text-[#0A291C]/80 text-sm mt-3 sm:mt-4 leading-relaxed px-4 sm:px-8">{testimonial.testimonial}</p>
+                <p className="text-[#c29c3d] font-alta text-base sm:text-lg mt-3 sm:mt-4">{testimonial.name}</p>
               </div>
             ))}
           </div>
 
-          {/* Carousel indicators */}
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === index ? "bg-[#c29c3d] w-6" : "bg-[#0A291C]/20"
-                }`}
-                onClick={() => setActiveIndex(index)}
-                aria-label={`View testimonial ${index + 1}`}
-              />
-            ))}
+          {/* Carousel navigation buttons for better tablet experience */}
+          <div className="flex justify-center items-center mt-8 space-x-4">
+            <button 
+              onClick={() => setActiveIndex(prev => (prev === 0 ? testimonials.length - 1 : prev - 1))}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0A291C] text-[#D4AF37] hover:bg-[#0A291C]/80 transition-colors"
+              aria-label="Previous testimonial"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            
+            <div className="flex justify-center space-x-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    activeIndex === index ? "bg-[#c29c3d] w-6" : "bg-[#0A291C]/20"
+                  }`}
+                  onClick={() => setActiveIndex(index)}
+                  aria-label={`View testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            <button 
+              onClick={() => setActiveIndex(prev => (prev === testimonials.length - 1 ? 0 : prev + 1))}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0A291C] text-[#D4AF37] hover:bg-[#0A291C]/80 transition-colors"
+              aria-label="Next testimonial"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </section>
   )
 }
-
