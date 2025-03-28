@@ -175,6 +175,10 @@ export function ContactFormSection() {
               <a href="mailto:info.neuroperformancetraining@gmail.com" className="text-[#D4AF37] hover:underline">
                 info.neuroperformancetraining@gmail.com
               </a>
+              {" "}ou par téléphone au{" "}
+              <a href="tel:+32465387451" className="text-[#D4AF37] hover:underline">
+                +32 465 38 74 51
+              </a>
             </p>
           </div>
         </div>
