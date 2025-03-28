@@ -21,12 +21,12 @@ export function ConceptSection() {
               DE HAUT STANDING EN BELGIQUE<br />
               DANS UN LIEU D&apos;EXCEPTION
             </h2>
-            <p className="text-[#F5F5DC] text-lg leading-relaxed mb-8 font-light text-center">
+            <p className="text-[#F5F5DC] text-lg leading-relaxed mb-8 font-light text-justify">
               A moins d&apos; 1 heure du centre de Bruxelles, plongez au cœur d&apos;une retraite exceptionnelle de deux jours, une expérience unique pour bénéficier
               d&apos;outils pour développer votre résilience, intuition, votre force, et votre énergie à travers
               l&apos;équilibre de vos trois cerveaux : tête, cœur et intestin.
             </p>
-            <p className="text-[#F5F5DC] text-lg leading-relaxed font-light text-center">
+            <p className="text-[#F5F5DC] text-lg leading-relaxed font-light text-justify">
               Cette immersion de haut standing va bien au-delà de la simple détente : c&apos;est un moment pour
               reprogrammer votre mental, revitaliser votre corps, et optimiser votre bien-être. Vous repartirez aligné,
               énergisé, et prêt à performer à votre meilleur niveau, tout en restant en harmonie avec vous-même.
