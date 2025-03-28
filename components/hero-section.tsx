@@ -13,26 +13,26 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-[#0A291C]/80"></div>
       <div className="container mx-auto px-4 text-center relative z-10 py-20">
         <h1
-          className="font-alta text-6xl sm:text-8xl md:text-9xl text-white tracking-widest mb-8"
+          className="font-alta text-7xl sm:text-9xl md:text-[10rem] text-white tracking-widest mb-8"
           style={{ letterSpacing: "0.5em" }}
         >
           RISE
         </h1>
 
-        <div className="mt-10 max-w-2xl mx-auto">
-          <p className="text-lg sm:text-xl text-white uppercase tracking-wide leading-relaxed">
+        <div className="mt-10 max-w-3xl mx-auto">
+          <p className="text-xl sm:text-2xl md:text-3xl text-white uppercase tracking-wide leading-relaxed">
             UNE <span className="font-bold">RETRAITE DE 2 JOURS</span> POUR EXCELLER DANS VOTRE CARRIÈRE{" "}
             <span className="font-bold">SANS SACRIFIER VOTRE BIEN-ÊTRE PERSONNEL</span>
           </p>
         </div>
 
-        <div className="mt-16 text-2xl sm:text-3xl text-white font-light font-alta">LES 24 & 25 MAI 2025</div>
+        <div className="mt-16 text-3xl sm:text-4xl text-white font-light font-alta">LES 24 & 25 MAI 2025</div>
 
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSfM_TnGhjP_-dgKSrkyFTgULULbTeF08F0THHSQbCqrntC1oQ/viewform"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-16 inline-block bg-transparent border border-[#D4AF37] text-[#D4AF37] px-8 py-3 text-lg tracking-wide hover:bg-[#D4AF37]/10 transition-all duration-300"
+          className="mt-16 inline-block bg-transparent border border-[#D4AF37] text-[#D4AF37] px-10 py-4 text-xl tracking-wide hover:bg-[#D4AF37]/10 transition-all duration-300"
         >
           JE RÉSERVE MA PLACE
         </a>
@@ -40,4 +40,3 @@ export function HeroSection() {
     </section>
   )
 }
-

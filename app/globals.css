@@ -66,6 +66,7 @@
     @apply bg-background text-foreground;
     font-family: "Montserrat", sans-serif;
     font-weight: 300;
+    font-size: 18px;
     letter-spacing: 0.02em;
   }
   html {
@@ -189,4 +190,3 @@ img {
     scrollbar-width: none; /* Firefox */
   }
 }
-

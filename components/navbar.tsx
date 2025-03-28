@@ -41,7 +41,7 @@ export function Navbar() {
             <div className="w-16 h-16 flex items-center justify-center">
               <Image src="/images/rise-logo-new.png" alt="RISE Logo" width={64} height={64} className="w-full h-auto" />
             </div>
-            <span className="font-alta text-[#D4AF37] text-2xl tracking-widest">RISE</span>
+            <span className="font-alta text-[#D4AF37] text-3xl tracking-widest">RISE</span>
           </div>
         </div>
 
@@ -50,7 +50,7 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors text-sm uppercase tracking-wider"
+              className="text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors text-base uppercase tracking-wider"
             >
               {link.label}
             </a>
@@ -75,14 +75,14 @@ export function Navbar() {
                   className="w-full h-auto"
                 />
               </div>
-              <span className="font-alta text-[#D4AF37] text-2xl tracking-widest">RISE</span>
+              <span className="font-alta text-[#D4AF37] text-3xl tracking-widest">RISE</span>
             </div>
             <nav className="flex flex-col space-y-6">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors text-sm uppercase tracking-wider"
+                  className="text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors text-lg uppercase tracking-wider"
                 >
                   {link.label}
                 </a>
