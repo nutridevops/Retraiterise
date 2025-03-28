@@ -80,7 +80,7 @@ export function SocialProofSection() {
       gridArea: "3 / 1 / 4 / 2"
     },
     { 
-      src: "/images/logos/baob-gold-replacement.png", 
+      src: "/images/logos/baob-gold-2025.png?v=1", 
       alt: "BAOB Brussels", 
       width: 400, 
       url: "https://baob-asbl.be/",
@@ -131,6 +131,7 @@ export function SocialProofSection() {
                     width={logo.width}
                     height={100}
                     className="object-contain max-h-32 transition-transform duration-300 group-hover:scale-105"
+                    unoptimized={logo.alt === "BAOB Brussels"}
                   />
                 </Link>
               </div>
