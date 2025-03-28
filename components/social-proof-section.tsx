@@ -82,7 +82,7 @@ export function SocialProofSection() {
     { 
       src: "/images/logos/baob-brussels-gold.png", 
       alt: "BAOB Brussels", 
-      width: 350, 
+      width: 400, 
       url: "https://baob-asbl.be/",
       gridArea: "3 / 2 / 4 / 4"
     },
