@@ -80,19 +80,19 @@ export function SocialProofSection() {
       gridArea: "3 / 1 / 4 / 2"
     },
     { 
-      src: "/images/logos/baob-brussels-gold.png", 
+      src: "/images/logos/baob-brussels-logo.png", 
       alt: "BAOB Brussels", 
-      width: 250, 
+      width: 350, 
       url: "https://baob-asbl.be/",
       gridArea: "3 / 2 / 4 / 4"
     },
   ]
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#f5f2ea]">
+    <section ref={sectionRef} className="py-32 bg-[#0A291C]">
       <div className="container mx-auto px-4">
         <h2
-          className={`font-alta text-4xl sm:text-5xl text-[#0A291C] text-center mb-16 transition-all duration-1000 ${
+          className={`font-alta text-4xl sm:text-5xl text-[#D4AF37] text-center mb-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -124,7 +124,7 @@ export function SocialProofSection() {
                   rel="noopener noreferrer"
                   className="relative h-40 w-full flex items-center justify-center p-4 bg-transparent group"
                 >
-                  <div className="absolute inset-0 bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/10 transition-all duration-300 rounded-lg"></div>
+                  <div className="absolute inset-0 bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 transition-all duration-300 rounded-lg"></div>
                   <Image
                     src={logo.src || "/placeholder.svg"}
                     alt={logo.alt}
@@ -140,7 +140,7 @@ export function SocialProofSection() {
 
         <div className="text-center mt-16">
           <p
-            className={`text-[#0A291C]/70 text-lg font-light max-w-2xl mx-auto transition-all duration-1000 delay-500 ${
+            className={`text-[#D4AF37]/70 text-lg font-light max-w-2xl mx-auto transition-all duration-1000 delay-500 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
