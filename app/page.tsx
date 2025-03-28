@@ -13,6 +13,7 @@ import { TestimonialsSection } from "@/components/testimonials-section"
 import { SecretLocationSection } from "@/components/secret-location-section"
 import { CallToActionSection } from "@/components/call-to-action-section"
 import { ReservationSection } from "@/components/reservation-section"
+import { ContactFormSection } from "@/components/contact-form-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
@@ -33,8 +34,8 @@ export default function Home() {
       <SecretLocationSection />
       <CallToActionSection />
       <ReservationSection />
+      <ContactFormSection />
       <Footer />
     </main>
   )
 }
-

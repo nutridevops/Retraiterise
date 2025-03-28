@@ -26,6 +26,7 @@ export function Navbar() {
     { href: "#activites", label: "Activités" },
     { href: "#equipe", label: "L'Équipe" },
     { href: "#reservation", label: "Réservation" },
+    { href: "#contact", label: "Contact" },
   ]
 
   return (
@@ -93,4 +94,3 @@ export function Navbar() {
     </header>
   )
 }
-
