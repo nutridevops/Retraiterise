@@ -116,13 +116,13 @@ export function CallToActionSection() {
       </div>
 
       {/* Image gallery */}
-      <div className="grid grid-cols-2 md:grid-cols-4 h-64">
+      <div className="grid grid-cols-2 md:grid-cols-4 h-80 md:h-96">
         <div className="relative overflow-hidden">
           <Image
             src="/images/cta/woman-tree-nature.jpeg"
             alt="Femme pratiquant le yoga dans la nature"
             fill
-            className="object-cover hover:scale-110 transition-transform duration-700"
+            className="object-cover object-center hover:scale-110 transition-transform duration-700"
           />
         </div>
         <div className="relative overflow-hidden">
@@ -130,7 +130,7 @@ export function CallToActionSection() {
             src="/images/cta/woman-nature.png"
             alt="Femme dans la nature"
             fill
-            className="object-cover hover:scale-110 transition-transform duration-700"
+            className="object-cover object-center hover:scale-110 transition-transform duration-700"
           />
         </div>
         <div className="relative overflow-hidden">
@@ -138,7 +138,7 @@ export function CallToActionSection() {
             src="/images/cta/yoga-park.png"
             alt="Yoga dans le parc"
             fill
-            className="object-cover hover:scale-110 transition-transform duration-700"
+            className="object-cover object-center hover:scale-110 transition-transform duration-700"
           />
         </div>
         <div className="relative overflow-hidden">
@@ -146,7 +146,7 @@ export function CallToActionSection() {
             src="/images/cta/woman-child-headphones.jpeg"
             alt="Connexion et bien-être familial"
             fill
-            className="object-cover object-top hover:scale-110 transition-transform duration-700"
+            className="object-cover object-center hover:scale-110 transition-transform duration-700"
           />
         </div>
       </div>
@@ -160,4 +160,3 @@ export function CallToActionSection() {
     </section>
   )
 }
-
