@@ -42,14 +42,14 @@ export function TestimonialsSection() {
     {
       name: "Tanja",
       role: "",
-      image: "/images/testimonials/tanja.png",
+      image: "/images/testimonials/Ianja.png",
       testimonial:
         "Laetitia possède une capacité d'écoute exceptionnelle, alliée à un talent pour trouver les mots justes et nous pousser à dépasser nos propres limites. Sa bienveillance, son expertise en neuro-performance, et son approche innovante font d'elle une coach incomparable.",
     },
     {
       name: "Elodie",
       role: "",
-      image: "/images/testimonials/elodie.png",
+      image: "/images/testimonials/Elodie.png",
       testimonial:
         "Ma première expérience avec Laetitia a été vraiment remarquable. J'ai eu l'impression d'être plongée dans une bulle de transformation où chaque partie de mon être se connectait pour réveiller ma conscience de tout mon potentiel.",
     },
