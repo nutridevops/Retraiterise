@@ -78,10 +78,10 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section id="temoignages" ref={sectionRef} className="relative py-24 overflow-hidden bg-[#0A291C]">
+    <section id="temoignages" ref={sectionRef} className="relative py-24 overflow-hidden bg-[#f5f5f0]">
       <div className="container mx-auto px-4 relative z-10">
         <h2
-          className={`font-alta text-4xl sm:text-5xl md:text-6xl text-[#D4AF37] text-center mb-16 transition-all duration-1000 ${
+          className={`font-alta text-4xl sm:text-5xl md:text-6xl text-[#c29c3d] text-center mb-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -113,11 +113,11 @@ export function TestimonialsSection() {
               <div className="flex-1">
                 <div className="flex items-center mb-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
+                    <Star key={i} className="w-4 h-4 fill-[#c29c3d] text-[#c29c3d]" />
                   ))}
                 </div>
-                <h3 className="text-white font-medium text-lg">{testimonial.name}</h3>
-                <p className="text-white/80 text-sm mt-3 leading-relaxed">{testimonial.testimonial}</p>
+                <h3 className="text-[#0A291C] font-medium text-lg">{testimonial.name}</h3>
+                <p className="text-[#0A291C]/80 text-sm mt-3 leading-relaxed">{testimonial.testimonial}</p>
               </div>
             </div>
           ))}
@@ -133,7 +133,7 @@ export function TestimonialsSection() {
                   activeIndex === index ? "opacity-100 z-10 relative" : "opacity-0 z-0 absolute inset-0"
                 }`}
               >
-                <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-[#D4AF37] mb-4 sm:mb-6">
+                <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-[#0A291C] mb-4 sm:mb-6">
                   <Image
                     src={testimonial.image || "/placeholder.svg"}
                     alt={testimonial.name}
@@ -145,11 +145,11 @@ export function TestimonialsSection() {
                 </div>
                 <div className="flex items-center justify-center mb-2 sm:mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-[#D4AF37] text-[#D4AF37]" />
+                    <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-[#c29c3d] text-[#c29c3d]" />
                   ))}
                 </div>
-                <h3 className="text-white font-medium text-base sm:text-lg">{testimonial.name}</h3>
-                <p className="text-white/80 text-sm mt-3 sm:mt-4 leading-relaxed px-4 sm:px-8">{testimonial.testimonial}</p>
+                <h3 className="text-[#0A291C] font-medium text-base sm:text-lg">{testimonial.name}</h3>
+                <p className="text-[#0A291C]/80 text-sm mt-3 sm:mt-4 leading-relaxed px-4 sm:px-8">{testimonial.testimonial}</p>
               </div>
             ))}
           </div>
@@ -158,7 +158,7 @@ export function TestimonialsSection() {
           <div className="flex justify-center items-center mt-8 space-x-4">
             <button 
               onClick={() => setActiveIndex(prev => (prev === 0 ? testimonials.length - 1 : prev - 1))}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#D4AF37] text-[#0A291C] hover:bg-[#D4AF37]/80 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0A291C] text-white hover:bg-[#0A291C]/80 transition-colors"
               aria-label="Previous testimonial"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -171,7 +171,7 @@ export function TestimonialsSection() {
                 <button
                   key={index}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    activeIndex === index ? "bg-[#D4AF37] w-6" : "bg-white/20"
+                    activeIndex === index ? "bg-[#c29c3d] w-6" : "bg-[#0A291C]/20"
                   }`}
                   onClick={() => setActiveIndex(index)}
                   aria-label={`View testimonial ${index + 1}`}
@@ -181,7 +181,7 @@ export function TestimonialsSection() {
             
             <button 
               onClick={() => setActiveIndex(prev => (prev === testimonials.length - 1 ? 0 : prev + 1))}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#D4AF37] text-[#0A291C] hover:bg-[#D4AF37]/80 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0A291C] text-white hover:bg-[#0A291C]/80 transition-colors"
               aria-label="Next testimonial"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
