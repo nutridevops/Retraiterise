@@ -42,7 +42,7 @@ export function TestimonialsSection() {
     {
       name: "Ianja",
       role: "",
-      image: "/images/testimonials/ianja.png",
+      image: "/images/testimonials/Ianja.png",
       testimonial:
         "Laetitia possède une capacité d'écoute exceptionnelle, alliée à un talent pour trouver les mots justes et nous pousser à dépasser nos propres limites. Sa bienveillance, son expertise en neuro-performance, et son approche innovante font d'elle une coach incomparable.",
     },
