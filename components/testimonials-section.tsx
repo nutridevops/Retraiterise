@@ -40,57 +40,41 @@ export function TestimonialsSection() {
 
   const testimonials = [
     {
-      name: "Mélissa M.",
-      role: "Business Analyst",
-      image: "/images/testimonials/melissa-m.png",
+      name: "Tanja",
+      role: "",
+      image: "/images/testimonials/tanja.png",
       testimonial:
-        "La méthode R.I.S.E. m'a permis de découvrir comment mon corps et mon cerveau fonctionnent ensemble. J'ai appris à gérer mon stress professionnel tout en restant centrée et productive. Les techniques de respiration et de pleine conscience ont transformé ma façon d'aborder les défis quotidiens.",
+        "Laetitia possède une capacité d'écoute exceptionnelle, alliée à un talent pour trouver les mots justes et nous pousser à dépasser nos propres limites. Sa bienveillance, son expertise en neuro-performance, et son approche innovante font d'elle une coach incomparable.",
     },
     {
-      name: "Gracia M.",
-      role: "Marketing & Business Developper",
-      image: "/images/testimonials/gracia-m.png",
+      name: "Elodie",
+      role: "",
+      image: "/images/testimonials/elodie.png",
       testimonial:
-        "En tant que multipotentielle, j'avais du mal à canaliser mon énergie et mes idées. La retraite m'a offert des outils concrets pour équilibrer mes trois cerveaux. J'ai développé une intuition plus fine pour mes décisions professionnelles et une meilleure gestion de mon énergie créative.",
+        "Ma première expérience avec Laetitia a été vraiment remarquable. J'ai eu l'impression d'être plongée dans une bulle de transformation où chaque partie de mon être se connectait pour réveiller ma conscience de tout mon potentiel.",
     },
     {
-      name: "Steven S.",
-      role: "Marketing & Business Developper",
-      image: "/images/testimonials/steven-s.png",
+      name: "Camille",
+      role: "",
+      image: "/images/testimonials/camille.png",
       testimonial:
-        "Avant la retraite, je vivais dans un état constant de surmenage mental. L'approche holistique de R.I.S.E. m'a appris à reconnaître les signaux de mon corps et à cultiver ma résilience. Aujourd'hui, je prends des décisions plus alignées et je ressens une véritable harmonie entre ma vie professionnelle et personnelle.",
+        "Avec Sandra, j'ai découvert une autre façon de faire du sport. Au fil des semaines, je sentais que mon corps devenait de plus en plus fort. Et son plan alimentaire sans chichi a été super simple à suivre. Elle écoute ses besoins physiques, elle est à l'écoute et ajuste les exercices.",
     },
     {
-      name: "Gisele V.",
-      role: "Business Analyst",
-      image: "/images/testimonials/gisele-v.png",
+      name: "Daniela",
+      role: "",
+      image: "/images/testimonials/daniela.png",
       testimonial:
-        "Les exercices de connexion corps-esprit m'ont révélé l'importance de l'intelligence intestinale dans mes prises de décision. J'ai découvert comment mon alimentation influençait ma clarté mentale. Grâce à cette retraite, j'ai développé une confiance profonde en mon intuition qui guide maintenant mes analyses professionnelles.",
-    },
-    {
-      name: "Jeremy D.",
-      role: "Marketing & Business Developper",
-      image: "/images/testimonials/jeremy-d.png",
-      testimonial:
-        "La méthode R.I.S.E. a transformé ma relation au stress et à la performance. J'ai appris à puiser dans mes ressources intérieures pour maintenir mon énergie tout au long de la journée. Les techniques d'ancrage émotionnel m'ont permis de rester centré même dans les situations professionnelles les plus exigeantes.",
-    },
-    {
-      name: "Natacha N.",
-      role: "Marketing & Business Developper",
-      image: "/images/testimonials/natacha-n.png",
-      testimonial:
-        "Cette retraite a été une révélation sur la connexion entre mon cerveau cardiaque et mes décisions professionnelles. J'ai découvert comment l'équilibre de mes trois cerveaux pouvait influencer positivement ma créativité et ma capacité à diriger. Aujourd'hui, je ressens une cohérence profonde entre mes valeurs et mes actions.",
+        "Sandra a su m'encourager à dépasser mes limites à chaque séance, tout en rendant l'entraînement à la fois fun et motivant. Malgré mon emploi du temps chargé, elle a réussi à me motiver à maintenir le rythme. Elle était aussi présente que moi dans l'atteinte de mes objectifs.",
     },
   ]
 
   // Custom image positioning for each testimonial to ensure perfect centering
-  const imagePositions = {
-    "Mélissa M.": "object-[50%_30%]", // Adjust to center face
-    "Gracia M.": "object-[50%_35%]", // Slight adjustment to center face
-    "Steven S.": "object-[50%_25%]", // Move up slightly to center face
-    "Gisele V.": "object-[50%_30%]", // Adjust to center face
-    "Jeremy D.": "object-[50%_30%]", // Adjust to center face
-    "Natacha N.": "object-[50%_30%]", // Adjust to center face
+  const imagePositions: { [key: string]: string } = {
+    "Tanja": "object-[50%_30%]", // Adjust to center face
+    "Elodie": "object-[50%_30%]", // Adjust to center face
+    "Camille": "object-[50%_35%]", // Slight adjustment to center face
+    "Daniela": "object-[50%_30%]", // Adjust to center face
   }
 
   return (
@@ -101,7 +85,7 @@ export function TestimonialsSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          ILS TÉMOIGNENT DE LEUR EXPÉRIENCE
+          ELLES TÉMOIGNENT DE LEUR EXPÉRIENCE
         </h2>
 
         {/* Desktop layout - Grid */}
