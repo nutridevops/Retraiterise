@@ -40,9 +40,9 @@ export function TestimonialsSection() {
 
   const testimonials = [
     {
-      name: "Tanja",
+      name: "Ianja",
       role: "",
-      image: "/images/testimonials/daniela.png",
+      image: "/images/testimonials/ianja.png",
       testimonial:
         "Laetitia possède une capacité d'écoute exceptionnelle, alliée à un talent pour trouver les mots justes et nous pousser à dépasser nos propres limites. Sa bienveillance, son expertise en neuro-performance, et son approche innovante font d'elle une coach incomparable.",
     },
@@ -63,7 +63,7 @@ export function TestimonialsSection() {
     {
       name: "Daniela",
       role: "",
-      image: "/images/testimonials/Ianja.png",
+      image: "/images/testimonials/daniela.png",
       testimonial:
         "Sandra a su m'encourager à dépasser mes limites à chaque séance, tout en rendant l'entraînement à la fois fun et motivant. Malgré mon emploi du temps chargé, elle a réussi à me motiver à maintenir le rythme. Elle était aussi présente que moi dans l'atteinte de mes objectifs.",
     },
