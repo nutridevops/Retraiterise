@@ -35,7 +35,7 @@ export function ReservationSection() {
             <div className="mt-12">
               <p className="text-[#F5F5DC]/70 text-sm font-light">
                 <span className="text-[#D4AF37]">Note:</span> Un acompte de 322 € est requis pour confirmer votre
-                réservation. Le solde devra être réglé au plus tard 15 jours avant le début de la retraite.
+                réservation. Le solde devra être réglé avant le 31 Avril.
               </p>
             </div>
 

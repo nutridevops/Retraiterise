@@ -18,7 +18,7 @@ export function TeamSection() {
       name: "SANDRA LEGUEDE",
       role: "Coach en neurofitness & bien-être",
       description:
-        "Spécialiste du neurofitness et du bien-être, Sandra vous accompagnera dans des exercices physiques et mentaux conçus pour renforcer la connexion entre votre corps et votre esprit, optimisant ainsi votre résilience et votre énergie.",
+        "Spécialiste du neurofitness et du bien-être, Sandra vous accompagnera dans des exercices physiques et mentaux conçus pour renforcer la connexion entre votre corps et votre cerveau, optimisant ainsi votre résilience et votre énergie.",
       image: "/images/team-sandra.png",
       instagram: "@sandrafitabla",
       instagramUrl: "https://www.instagram.com/sandrafitabla/"
