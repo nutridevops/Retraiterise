@@ -13,10 +13,10 @@ export async function POST(request: Request) {
     // Send the email using Resend with the React template
     const { data: emailData, error } = await resend.emails.send({
       from: "RISE Retreat <contact@riseretreat.com>", // You can customize this
-      to: "info.neuroperformancetraining@gmail.com",
+      to: ["chris@codenutri.com", "info.neuroperformancetraining@gmail.com"],
       subject: `Nouveau message de ${name} - Formulaire RISE Retreat`,
       react: EmailTemplate({ name, email, phone, message }),
-      reply_to: email,
+      replyTo: email,
     })
 
     if (error) {
@@ -31,4 +31,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to process request" }, { status: 500 })
   }
 }
-
