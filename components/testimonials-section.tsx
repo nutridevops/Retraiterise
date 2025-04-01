@@ -40,7 +40,7 @@ export function TestimonialsSection() {
 
   const testimonials = [
     {
-      name: "Tanja",
+      name: "Ianja",
       role: "",
       image: "/images/testimonials/tanja.png",
       testimonial:
