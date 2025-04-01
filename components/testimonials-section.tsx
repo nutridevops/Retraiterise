@@ -49,7 +49,7 @@ export function TestimonialsSection() {
     {
       name: "Elodie",
       role: "",
-      image: "/images/testimonials/Elodie.png",
+      image: "/images/testimonials/elodie.png",
       testimonial:
         "Ma première expérience avec Laetitia a été vraiment remarquable. J'ai eu l'impression d'être plongée dans une bulle de transformation où chaque partie de mon être se connectait pour réveiller ma conscience de tout mon potentiel.",
     },
