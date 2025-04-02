@@ -16,7 +16,7 @@ export function ReservationSection() {
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Lieu:</span>
-                <span>Domaine de Luxe, près de Bruxelles</span>
+                <span>Lieu à moins d'une heure de Bruxelles</span>
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Tarif:</span>
@@ -28,7 +28,7 @@ export function ReservationSection() {
               </div>
               <div className="flex justify-between border-b border-[#D4AF37]/10 pb-3">
                 <span className="font-light">Places:</span>
-                <span>Limitées à 15 participants</span>
+                <span>Limitées à 12 participants</span>
               </div>
             </div>
 
@@ -36,6 +36,7 @@ export function ReservationSection() {
               <p className="text-[#F5F5DC]/70 text-sm font-light">
                 <span className="text-[#D4AF37]">Note:</span> Un acompte de 322 € est requis pour confirmer votre
                 réservation. Le solde devra être réglé avant le 31 Avril.
+                La date réduction c'est jusque le 31 mars.
               </p>
             </div>
 
