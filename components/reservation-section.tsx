@@ -36,7 +36,6 @@ export function ReservationSection() {
               <p className="text-[#F5F5DC]/70 text-sm font-light">
                 <span className="text-[#D4AF37]">Note:</span> Un acompte de 322 € est requis pour confirmer votre
                 réservation. Le solde devra être réglé avant le 31 Avril.
-                La date réduction c'est jusque le 31 mars.
               </p>
             </div>
 
@@ -58,7 +57,7 @@ export function ReservationSection() {
             <div className="space-y-6 text-white">
               <div className="flex items-start">
                 <div className="text-[#D4AF37] text-2xl mr-4">•</div>
-                <p>Places limitées à 15 participants pour garantir une expérience personnalisée</p>
+                <p>Places limitées à 12 participants pour garantir une expérience personnalisée</p>
               </div>
 
               <div className="flex items-start">
