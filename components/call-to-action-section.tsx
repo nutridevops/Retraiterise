@@ -154,7 +154,7 @@ export function CallToActionSection() {
       {/* Special offer banner */}
       <div className="bg-[#0A291C] text-white py-8 text-center">
         <p className="text-xl md:text-2xl font-light">
-          Réservez avant le 31 mars et bénéficiez d&apos;un bonus exclusif !
+          Réservez avant le 31 avril et bénéficiez d&apos;un bonus exclusif !
         </p>
       </div>
     </section>
