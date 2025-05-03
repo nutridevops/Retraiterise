@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Montserrat, Cinzel } from 'next/font/google'
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from "@/lib/auth"
+import ClientOnly from "@/components/ClientOnly"
 
 // Load Montserrat for body text
 const montserrat = Montserrat({
@@ -40,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
@@ -55,10 +57,18 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon/favicon_io/apple-touch-icon.png" />
         <link rel="manifest" href="/favicon/favicon_io/site.webmanifest" />
       </head>
-      <body className={`${montserrat.variable} ${cinzel.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+      <body className={`${montserrat.variable} ${cinzel.variable}`} suppressHydrationWarning>
+        <ClientOnly>
+          <AuthProvider>
+            <ThemeProvider 
+              attribute="class" 
+              enableSystem={true} 
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </AuthProvider>
+        </ClientOnly>
       </body>
     </html>
   )

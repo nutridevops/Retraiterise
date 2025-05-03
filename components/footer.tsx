@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export function Footer() {
   return (
@@ -21,8 +22,13 @@ export function Footer() {
             <p className="text-[#F5F5DC]/60 text-lg font-light">Résilience · Intuition · Strength · Energy</p>
           </div>
           
-          {/* Attribution on the right */}
-          <div className="text-center md:text-right">
+          {/* Attribution and login link on the right */}
+          <div className="flex flex-col space-y-3 text-sm md:text-right">
+            <div className="flex flex-col space-y-2">
+              <Link href="/organizer/login" className="text-[#F5F5DC] transition-colors hover:text-[#c9a227]">
+                R.I.S.E. Team Portal
+              </Link>
+            </div>
             <p className="text-[#F5F5DC]/60 text-base font-light">
               Powered and designed by <a href="https://www.codenutri.com" target="_blank" rel="noopener noreferrer" className="text-[#D4AF37] hover:underline">www.codenutri.com</a>
             </p>
