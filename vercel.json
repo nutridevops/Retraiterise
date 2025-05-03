@@ -12,8 +12,8 @@
   },
   "git": {
     "deploymentEnabled": {
-      "main": true,
-      "production": true
+      "main": true
     }
-  }
+  },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 }
