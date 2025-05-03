@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '../styles/rise-colors.css';
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -24,6 +26,13 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 43 77% 52%;
     --radius: 0rem;
+    --rise-blue: #3498db;
+    --rise-orange: #f1c40f;
+    --rise-green: #2ecc71;
+    --rise-red: #e74c3c;
+    --rise-purple: #9b59b6;
+    --rise-pink: #e91e63;
+    --rise-yellow: #f7dc6f;
   }
 
   .dark {

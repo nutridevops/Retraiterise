@@ -53,6 +53,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // RISE custom colors
+        "rise-gold": "#c9a227",
+        "rise-dark-green": "#0A291C",
+        "rise-medium-green": "#1A3A2C",
+        "rise-light-cream": "#F5F5DC",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -87,4 +92,3 @@ const config = {
 } satisfies Config
 
 export default config
-
