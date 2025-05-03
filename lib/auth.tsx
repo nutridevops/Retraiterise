@@ -20,6 +20,7 @@ export type UserRole = 'client' | 'organizer' | 'admin';
 export interface RiseUser extends User {
   role?: UserRole;
   displayName: string | null;
+  profileImageUrl?: string;
 }
 
 // Define the shape of our auth context
@@ -28,8 +29,8 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   signUp: (email: string, password: string, displayName: string, role?: UserRole) => Promise<UserCredential>;
-  signIn: (email: string, password: string) => Promise<UserCredential>;
-  signInAsOrganizer: (email: string, password: string) => Promise<UserCredential>;
+  signIn: (email: string, password: string) => Promise<boolean>;
+  signInAsOrganizer: (email: string, password: string) => Promise<boolean>;
   logOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateUserRole: (uid: string, role: UserRole) => Promise<void>;
@@ -124,73 +125,69 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 ...firebaseUser,
                 role: userData.role || 'client',
                 displayName: userData.displayName || firebaseUser.displayName,
+                profileImageUrl: userData.profileImageUrl || '',
               };
               
               console.log('User authenticated with role:', extendedUser.role);
               setUser(extendedUser);
             } else {
               // User exists in Firebase Auth but not in Firestore
-              // Create a basic user document if we're online
-              if (isOnline) {
-                try {
-                  await setDoc(userDocRef, {
-                    uid: firebaseUser.uid,
-                    email: firebaseUser.email,
-                    displayName: firebaseUser.displayName,
-                    role: 'client', // Default role
-                    createdAt: Timestamp.now(),
-                    lastLogin: Timestamp.now()
-                  });
-                  
-                  // Set the user with the default role
-                  const extendedUser: RiseUser = {
-                    ...firebaseUser,
-                    role: 'client',
-                    displayName: firebaseUser.displayName,
-                  };
-                  setUser(extendedUser);
-                } catch (createError) {
-                  console.error('Error creating user document:', createError);
-                  setUser(firebaseUser as RiseUser);
-                }
-              } else {
-                // We're offline, just use the Firebase user
-                setUser(firebaseUser as RiseUser);
-              }
-            }
-          } catch (firestoreError: any) {
-            console.error('Error fetching user data:', firestoreError);
-            
-            // If we're offline, use the cached Firebase user
-            if (!isOnline || firestoreError.code === 'failed-precondition' || 
-                firestoreError.message.includes('offline')) {
-              console.log('Using cached user data due to offline status');
+              // Create a new user document with default role
+              const newUserData = {
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                displayName: firebaseUser.displayName,
+                role: 'client', // Default role
+                createdAt: Timestamp.now(),
+                lastLogin: Timestamp.now(),
+              };
+              
+              await setDoc(userDocRef, newUserData);
+              
               const extendedUser: RiseUser = {
                 ...firebaseUser,
-                role: 'client', // Default role when offline
-                displayName: firebaseUser.displayName,
+                role: 'client',
               };
+              
+              console.log('Created new user document with default role');
               setUser(extendedUser);
-            } else {
-              setError('Failed to load user data: ' + firestoreError.message);
-              setUser(firebaseUser as RiseUser);
             }
+          } catch (err) {
+            console.error('Error fetching user data from Firestore:', err);
+            // Still set the user with basic Firebase Auth data
+            const basicUser: RiseUser = {
+              ...firebaseUser,
+              role: 'client', // Default role if Firestore fails
+            };
+            setUser(basicUser);
+          }
+          
+          // Update last login timestamp
+          try {
+            await setDoc(
+              userDocRef,
+              { lastLogin: Timestamp.now() },
+              { merge: true }
+            );
+          } catch (err) {
+            console.error('Error updating last login:', err);
           }
         } catch (err) {
-          console.error('Error in auth state change:', err);
-          setError('Failed to process authentication');
+          console.error('Error in auth state change handler:', err);
+          // Set user with just Firebase Auth data as fallback
           setUser(firebaseUser as RiseUser);
+        } finally {
+          setLoading(false);
         }
       } else {
+        // No user is signed in
         setUser(null);
+        setLoading(false);
       }
-      
-      setLoading(false);
     });
-
-    // Cleanup subscription
+    
     return () => unsubscribe();
-  }, [isClient, isOnline]);
+  }, [isClient]);
 
   // Sign up function
   const signUp = async (
@@ -202,84 +199,191 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setError(null);
       
-      // Check if Firebase services are initialized
+      // Check if Firebase auth and Firestore are initialized
       if (!auth || !db) {
-        throw new Error('Firebase services not initialized');
+        throw new Error('Firebase not initialized');
       }
       
+      // Create the user in Firebase Auth
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       
-      // Create user document in Firestore
-      await setDoc(doc(db, 'users', credential.user.uid), {
+      // Create a user document in Firestore
+      const userDocRef = doc(db, 'users', credential.user.uid);
+      await setDoc(userDocRef, {
         uid: credential.user.uid,
-        email,
+        email: credential.user.email,
         displayName,
         role,
         createdAt: Timestamp.now(),
-        lastLogin: Timestamp.now()
+        lastLogin: Timestamp.now(),
       });
+      
+      // If the role is organizer, also create an entry in the organizers collection
+      if (role === 'organizer') {
+        const organizerDocRef = doc(db, 'organizers', credential.user.uid);
+        await setDoc(organizerDocRef, {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          displayName,
+          role: 'organizer',
+          createdAt: Timestamp.now(),
+          lastLogin: Timestamp.now(),
+        });
+      }
+      
+      // If the role is client, also create an entry in the clients collection
+      if (role === 'client') {
+        const clientDocRef = doc(db, 'clients', credential.user.uid);
+        await setDoc(clientDocRef, {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          displayName,
+          role: 'client',
+          createdAt: Timestamp.now(),
+          lastLogin: Timestamp.now(),
+        });
+      }
       
       return credential;
     } catch (err: any) {
+      console.error('Error in signUp:', err);
       setError(err.message || 'Failed to sign up');
       throw err;
     }
   };
 
-  // Sign in function
-  const signIn = async (email: string, password: string): Promise<UserCredential> => {
+  // Sign in function for clients
+  const signIn = async (email: string, password: string): Promise<boolean> => {
     try {
       setError(null);
       
-      // Check if Firebase services are initialized
+      // Check if Firebase auth and Firestore are initialized
       if (!auth || !db) {
-        throw new Error('Firebase services not initialized');
+        throw new Error('Firebase not initialized');
       }
       
+      // Sign in with Firebase Auth
       const credential = await signInWithEmailAndPassword(auth, email, password);
       
-      // Update last login time
+      // Check if the user is a client
+      const userDocRef = doc(db, 'users', credential.user.uid);
+      const userDoc = await getDoc(userDocRef);
+      
+      if (!userDoc.exists()) {
+        // Create user document if it doesn't exist
+        await setDoc(userDocRef, {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          displayName: credential.user.displayName,
+          role: 'client', // Default role
+          createdAt: Timestamp.now(),
+          lastLogin: Timestamp.now(),
+        });
+        
+        // Also create a client document
+        const clientDocRef = doc(db, 'clients', credential.user.uid);
+        await setDoc(clientDocRef, {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          displayName: credential.user.displayName,
+          role: 'client',
+          createdAt: Timestamp.now(),
+          lastLogin: Timestamp.now(),
+        });
+        
+        return true;
+      }
+      
+      const userData = userDoc.data();
+      
+      // If user is not a client, sign them out and throw an error
+      if (userData.role !== 'client' && userData.role !== 'admin') {
+        await signOut(auth);
+        throw new Error('not-authorized');
+      }
+      
+      // Update last login timestamp
       await setDoc(
-        doc(db, 'users', credential.user.uid), 
+        userDocRef,
         { lastLogin: Timestamp.now() },
         { merge: true }
       );
       
-      return credential;
+      return true;
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
-      throw err;
+      console.error('Error in signIn:', err);
+      
+      // Customize error messages
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        setError('Email ou mot de passe incorrect.');
+        throw new Error('user-not-found');
+      } else if (err.message === 'not-authorized') {
+        setError('Votre compte n\'a pas les permissions nécessaires pour accéder au portail client.');
+        throw new Error('not-authorized');
+      } else {
+        setError(err.message || 'Une erreur est survenue lors de la connexion.');
+        throw err;
+      }
     }
   };
 
   // Sign in as organizer function
-  const signInAsOrganizer = async (email: string, password: string): Promise<UserCredential> => {
+  const signInAsOrganizer = async (email: string, password: string): Promise<boolean> => {
     try {
       setError(null);
       
-      // Check if Firebase services are initialized
+      // Check if Firebase auth and Firestore are initialized
       if (!auth || !db) {
-        throw new Error('Firebase services not initialized');
+        throw new Error('Firebase not initialized');
       }
       
-      // First authenticate with Firebase
+      // Sign in with Firebase Auth
       const credential = await signInWithEmailAndPassword(auth, email, password);
       
-      // Set the user role to organizer directly
-      // This is a temporary fix - in production, you would check against an organizers collection
-      // or a specific field in the user document
+      // Check if the user is an organizer
+      const userDocRef = doc(db, 'users', credential.user.uid);
+      const userDoc = await getDoc(userDocRef);
       
-      // Update the user's last login and role in Firestore
-      await setDoc(
-        doc(db, 'users', credential.user.uid),
-        {
+      if (!userDoc.exists()) {
+        // If user document doesn't exist, check if they're in the organizers collection
+        const organizerDocRef = doc(db, 'organizers', credential.user.uid);
+        const organizerDoc = await getDoc(organizerDocRef);
+        
+        if (!organizerDoc.exists()) {
+          // Not an organizer, sign them out and throw an error
+          await signOut(auth);
+          throw new Error('not-authorized');
+        }
+        
+        // Create user document with organizer role
+        await setDoc(userDocRef, {
+          uid: credential.user.uid,
+          email: credential.user.email,
+          displayName: credential.user.displayName,
+          role: 'organizer',
+          createdAt: Timestamp.now(),
           lastLogin: Timestamp.now(),
-          role: 'organizer', // Force the role to be organizer
-        },
+        });
+        
+        return true;
+      }
+      
+      const userData = userDoc.data();
+      
+      // If user is not an organizer or admin, sign them out and throw an error
+      if (userData.role !== 'organizer' && userData.role !== 'admin') {
+        await signOut(auth);
+        throw new Error('not-authorized');
+      }
+      
+      // Update last login timestamp
+      await setDoc(
+        userDocRef,
+        { lastLogin: Timestamp.now() },
         { merge: true }
       );
-
-      // Create an organizer document if it doesn't exist
+      
+      // Ensure they have an entry in the organizers collection
       const organizerDocRef = doc(db, 'organizers', credential.user.uid);
       const organizerDoc = await getDoc(organizerDocRef);
       
@@ -288,42 +392,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await setDoc(organizerDocRef, {
           uid: credential.user.uid,
           email: credential.user.email,
+          displayName: userData.displayName || credential.user.displayName,
           role: 'organizer',
           createdAt: Timestamp.now(),
           lastLogin: Timestamp.now()
         });
-      }
-
-      // Fetch the updated user document from Firestore to get all fields (including role)
-      const userDoc = await getDoc(doc(db, 'users', credential.user.uid));
-      let extendedUser: RiseUser | null = null;
-      
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        extendedUser = {
-          ...userData,
-          ...credential.user,
-          role: 'organizer', // Force the role to be organizer
-          displayName: userData.displayName || credential.user.displayName || '',
-        };
-        console.log('Setting user with organizer role:', extendedUser);
-        setUser(extendedUser);
       } else {
-        // fallback: set user with minimum info
-        extendedUser = {
-          ...credential.user,
-          role: 'organizer', // Force the role to be organizer
-          displayName: credential.user.displayName || '',
-        } as RiseUser;
-        console.log('Setting fallback user with organizer role:', extendedUser);
-        setUser(extendedUser);
+        // Update last login in organizers collection
+        await setDoc(
+          organizerDocRef,
+          { lastLogin: Timestamp.now() },
+          { merge: true }
+        );
       }
       
-      return credential;
+      return true;
     } catch (err: any) {
       console.error('Error in signInAsOrganizer:', err);
-      setError(err.message || 'Failed to sign in as organizer');
-      throw err;
+      
+      // Customize error messages
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        setError('Email ou mot de passe incorrect.');
+        throw new Error('user-not-found');
+      } else if (err.message === 'not-authorized') {
+        setError('Votre compte n\'a pas les permissions nécessaires pour accéder au portail organisateur.');
+        throw new Error('not-authorized');
+      } else {
+        setError(err.message || 'Une erreur est survenue lors de la connexion.');
+        throw err;
+      }
     }
   };
 
@@ -371,11 +468,58 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Firebase Firestore not initialized');
       }
       
+      // Update role in users collection
       await setDoc(
         doc(db, 'users', uid),
         { role },
         { merge: true }
       );
+      
+      // If role is organizer, ensure they have an entry in organizers collection
+      if (role === 'organizer') {
+        const userDocRef = doc(db, 'users', uid);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          // Create or update organizer document
+          await setDoc(
+            doc(db, 'organizers', uid),
+            {
+              uid,
+              email: userData.email,
+              displayName: userData.displayName,
+              role: 'organizer',
+              updatedAt: Timestamp.now(),
+            },
+            { merge: true }
+          );
+        }
+      }
+      
+      // If role is client, ensure they have an entry in clients collection
+      if (role === 'client') {
+        const userDocRef = doc(db, 'users', uid);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          // Create or update client document
+          await setDoc(
+            doc(db, 'clients', uid),
+            {
+              uid,
+              email: userData.email,
+              displayName: userData.displayName,
+              role: 'client',
+              updatedAt: Timestamp.now(),
+            },
+            { merge: true }
+          );
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to update user role');
       throw err;
