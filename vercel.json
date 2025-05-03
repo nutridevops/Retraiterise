@@ -6,6 +6,14 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "github": {
-    "silent": true
+    "silent": true,
+    "autoAlias": true,
+    "enabled": true
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "production": true
+    }
   }
 }
