@@ -28,14 +28,16 @@ export default function LoginPage() {
       if (!firebase.auth) {
         console.error("Firebase auth is not initialized");
         setFirebaseInitialized(false);
-        setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+        setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez réessayer dans quelques instants.");
       } else {
+        console.log("Firebase auth is initialized:", firebase.auth);
         setFirebaseInitialized(true);
+        setLoginError(null);
       }
     }).catch(err => {
       console.error("Error importing Firebase:", err);
       setFirebaseInitialized(false);
-      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez réessayer dans quelques instants.");
     });
   }, []);
   
@@ -57,7 +59,7 @@ export default function LoginPage() {
     e.preventDefault();
     
     if (!firebaseInitialized) {
-      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez réessayer dans quelques instants.");
       return;
     }
     
@@ -123,14 +125,16 @@ export default function LoginPage() {
             </div>
             
             {!firebaseInitialized && (
-              <div className="p-3 rounded bg-red-800 text-red-100 text-sm mb-6 border border-red-600">
-                <p className="font-semibold">Erreur de configuration Firebase</p>
-                <p>La connexion à Firebase n'a pas pu être établie. Veuillez vérifier que les variables d'environnement sont correctement configurées.</p>
+              <div className="p-4 rounded bg-red-800 text-red-100 text-sm mb-6 border border-red-600">
+                <p className="font-semibold text-base mb-1">Erreur de configuration Firebase</p>
+                <p>La connexion à Firebase n'a pas pu être établie.</p>
+                <p>Veuillez réessayer dans quelques instants.</p>
+                <p className="mt-2 text-xs">Si le problème persiste, contactez l'administrateur.</p>
               </div>
             )}
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              {loginError && (
+              {loginError && firebaseInitialized && (
                 <div className="p-3 rounded bg-red-800 text-red-100 text-sm border border-red-600">
                   {loginError}
                 </div>

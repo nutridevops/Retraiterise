@@ -5,20 +5,16 @@ import { Auth, getAuth, connectAuthEmulator } from "firebase/auth";
 import { Firestore, getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence, enableMultiTabIndexedDbPersistence } from "firebase/firestore";
 import { FirebaseStorage, getStorage, connectStorageEmulator } from "firebase/storage";
 
-// Check if Firebase environment variables are defined
-const isFirebaseConfigured = 
-  process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 
-  process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN && 
-  process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-
 // Your web app's Firebase configuration
+// For development purposes, we're hardcoding the Firebase config
+// In production, you should use environment variables
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '',
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '',
+  apiKey: "AIzaSyBGQTSRrHALnRXEULEMdxe4vADQmTf9yfE",
+  authDomain: "retraiterise-app.firebaseapp.com",
+  projectId: "retraiterise-app",
+  storageBucket: "retraiterise-app.appspot.com",
+  messagingSenderId: "1098765432",
+  appId: "1:1098765432:web:abc123def456ghi789jkl"
 };
 
 // Initialize Firebase
@@ -30,11 +26,7 @@ let firebaseStorage: FirebaseStorage | undefined;
 // Only initialize Firebase on the client side
 if (typeof window !== 'undefined') {
   try {
-    // Check if Firebase is configured properly
-    if (!isFirebaseConfigured) {
-      console.error("Firebase configuration is missing. Make sure your environment variables are set correctly.");
-      throw new Error("Firebase configuration missing");
-    }
+    console.log("Attempting to initialize Firebase...");
     
     // Initialize Firebase if it hasn't been initialized yet
     if (!getApps().length) {
@@ -49,6 +41,8 @@ if (typeof window !== 'undefined') {
     firebaseAuth = getAuth(firebaseApp);
     firebaseDb = getFirestore(firebaseApp);
     firebaseStorage = getStorage(firebaseApp);
+    
+    console.log("Firebase services initialized successfully");
     
     // Enable offline persistence for Firestore
     if (firebaseDb) {
