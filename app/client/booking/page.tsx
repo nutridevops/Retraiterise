@@ -85,6 +85,7 @@ export default function ClientBookingPage() {
                 if (result) {
                   handleBookingSuccess();
                 }
+                return result;
               }}
             />
           </CardContent>
