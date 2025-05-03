@@ -24,6 +24,9 @@ export function HeroSection() {
             UNE <span className="font-bold">RETRAITE DE 2 JOURS</span> POUR EXCELLER DANS VOTRE CARRIÈRE{" "}
             <span className="font-bold">SANS SACRIFIER VOTRE BIEN-ÊTRE PERSONNEL</span>
           </p>
+          <p className="text-lg sm:text-xl text-[#D4AF37] mt-4 italic">
+            Mise à jour: Mai 2025 - Nouvelles dates confirmées
+          </p>
         </div>
 
         <div className="mt-16 text-3xl sm:text-4xl text-white font-light font-alta">LES 24 & 25 MAI 2025</div>
