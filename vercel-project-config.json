@@ -1,0 +1,22 @@
+{
+  "projectId": "prj_76WznMx2gGmkEIR1sbbxLXMb9c9L",
+  "orgId": "team_uOy2JWGmwdIOMVL0scz4sQdf",
+  "settings": {
+    "framework": "nextjs",
+    "devCommand": "next dev",
+    "buildCommand": "next build",
+    "outputDirectory": ".next",
+    "rootDirectory": "rise-retreat",
+    "installCommand": "npm install"
+  },
+  "github": {
+    "enabled": true,
+    "silent": false,
+    "autoAlias": true
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}
