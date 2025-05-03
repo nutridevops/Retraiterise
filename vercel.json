@@ -24,7 +24,5 @@
       "main": true
     }
   },
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
-  "projectId": "prj_76WznMx2gGmkEIR1sbbxLXMb9c9L",
-  "orgId": "team_uOy2JWGmwdIOMVL0scz4sQdf"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 }
