@@ -7,9 +7,10 @@ import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, LogIn, Mail, AlertCircle } from 'lucide-react';
+import { Loader2, LogIn, Mail, AlertCircle, Eye, EyeOff, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -19,6 +20,7 @@ export default function OrganizerLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'login' | 'reset'>('login');
   const [redirecting, setRedirecting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   const { signInAsOrganizer, resetPassword, user, logOut } = useAuth();
   const { toast } = useToast();
@@ -107,31 +109,33 @@ export default function OrganizerLoginPage() {
       // Use the organizer-specific sign in method
       await signInAsOrganizer(email, password);
       
-      // Show success message
+      // Redirect will happen automatically via the useEffect hook
       toast({
         title: "Connexion réussie",
         description: "Bienvenue sur le portail organisateur.",
       });
-      
-      // Set redirecting state to show loading UI
-      setRedirecting(true);
-      
-      // Use setTimeout to ensure the state update happens before navigation
-      setTimeout(() => {
-        // Explicitly redirect to organizer dashboard after successful login
-        // Use replace instead of push to prevent back button returning to login
-        router.replace('/organizer/dashboard');
-      }, 100);
     } catch (error: any) {
+      console.error("Login error:", error);
+      
+      let errorMessage = "Une erreur est survenue lors de la connexion.";
+      if (error.message) {
+        if (error.message.includes("user-not-found") || error.message.includes("wrong-password")) {
+          errorMessage = "Email ou mot de passe incorrect.";
+        } else if (error.message.includes("not-authorized")) {
+          errorMessage = "Votre compte n'a pas les autorisations nécessaires pour accéder au portail organisateur.";
+        }
+      }
+      
       toast({
-        title: "Échec de connexion",
-        description: error.message || "Une erreur s'est produite lors de la connexion.",
+        title: "Erreur de connexion",
+        description: errorMessage,
         variant: "destructive",
       });
+      
       setIsLoading(false);
     }
   };
-
+  
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -148,15 +152,19 @@ export default function OrganizerLoginPage() {
     
     try {
       await resetPassword(email);
+      
       toast({
         title: "Email envoyé",
-        description: "Vérifiez votre boîte de réception pour les instructions de réinitialisation.",
+        description: "Vérifiez votre boîte de réception pour réinitialiser votre mot de passe.",
       });
+      
       setActiveTab('login');
     } catch (error: any) {
+      console.error("Password reset error:", error);
+      
       toast({
-        title: "Échec de réinitialisation",
-        description: error.message || "Une erreur s'est produite lors de l'envoi de l'email.",
+        title: "Erreur",
+        description: error.message || "Une erreur est survenue lors de l'envoi de l'email.",
         variant: "destructive",
       });
     } finally {
@@ -164,6 +172,10 @@ export default function OrganizerLoginPage() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
       <Card className="w-full max-w-md shadow-lg">
@@ -187,24 +199,58 @@ export default function OrganizerLoginPage() {
               <CardContent className="space-y-4 pt-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="votre@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="votre@email.com"
+                      className="pl-10"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Mot de passe</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      className="pl-10 pr-10"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <button 
+                      type="button"
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-gray-700"
+                      onClick={togglePasswordVisibility}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <Checkbox 
+                      id="show-password" 
+                      checked={showPassword} 
+                      onCheckedChange={() => setShowPassword(!showPassword)}
+                    />
+                    <Label 
+                      htmlFor="show-password" 
+                      className="text-sm cursor-pointer"
+                    >
+                      Afficher le mot de passe
+                    </Label>
+                  </div>
                 </div>
               </CardContent>
               
@@ -241,14 +287,18 @@ export default function OrganizerLoginPage() {
               <CardContent className="space-y-4 pt-4">
                 <div className="space-y-2">
                   <Label htmlFor="reset-email">Email</Label>
-                  <Input
-                    id="reset-email"
-                    type="email"
-                    placeholder="votre@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      placeholder="votre@email.com"
+                      className="pl-10"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
               </CardContent>
               
