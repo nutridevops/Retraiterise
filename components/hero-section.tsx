@@ -25,7 +25,7 @@ export function HeroSection() {
             <span className="font-bold">SANS SACRIFIER VOTRE BIEN-ÊTRE PERSONNEL</span>
           </p>
           <p className="text-lg sm:text-xl text-[#D4AF37] mt-4 italic">
-            Mise à jour: Mai 2025 - Nouvelles dates confirmées
+            Mise à jour: Mai 2025 - Accès complet au tableau de bord client et organisateur
           </p>
         </div>
 
