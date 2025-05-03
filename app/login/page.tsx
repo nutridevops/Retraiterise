@@ -20,6 +20,24 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [firebaseInitialized, setFirebaseInitialized] = useState(true);
+  
+  // Check if Firebase is initialized
+  useEffect(() => {
+    import('@/lib/firebase').then(firebase => {
+      if (!firebase.auth) {
+        console.error("Firebase auth is not initialized");
+        setFirebaseInitialized(false);
+        setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+      } else {
+        setFirebaseInitialized(true);
+      }
+    }).catch(err => {
+      console.error("Error importing Firebase:", err);
+      setFirebaseInitialized(false);
+      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+    });
+  }, []);
   
   // Redirect if already logged in
   useEffect(() => {
@@ -37,6 +55,12 @@ export default function LoginPage() {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!firebaseInitialized) {
+      setLoginError("La connexion à Firebase n'a pas pu être établie. Veuillez vérifier votre configuration.");
+      return;
+    }
+    
     setLoading(true);
     setLoginError(null);
     
@@ -98,6 +122,13 @@ export default function LoginPage() {
               </p>
             </div>
             
+            {!firebaseInitialized && (
+              <div className="p-3 rounded bg-red-900/50 text-red-200 text-sm mb-6">
+                <p className="font-semibold">Erreur de configuration Firebase</p>
+                <p>La connexion à Firebase n'a pas pu être établie. Veuillez vérifier que les variables d'environnement sont correctement configurées.</p>
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-6">
               {loginError && (
                 <div className="p-3 rounded bg-red-900/50 text-red-200 text-sm">
@@ -117,6 +148,7 @@ export default function LoginPage() {
                   placeholder="votre@email.com"
                   required
                   className="bg-green-800 border-green-700 focus:border-gold focus:ring-gold"
+                  disabled={!firebaseInitialized}
                 />
               </div>
               
@@ -133,11 +165,13 @@ export default function LoginPage() {
                     placeholder="Votre mot de passe"
                     required
                     className="bg-green-800 border-green-700 focus:border-gold focus:ring-gold pr-10"
+                    disabled={!firebaseInitialized}
                   />
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                    disabled={!firebaseInitialized}
                   >
                     {showPassword ? (
                       <EyeOff className="h-5 w-5 text-green-300" />
@@ -154,6 +188,7 @@ export default function LoginPage() {
                   checked={showPassword}
                   onCheckedChange={() => setShowPassword(!showPassword)}
                   className="text-gold border-green-600 focus:ring-gold"
+                  disabled={!firebaseInitialized}
                 />
                 <label 
                   htmlFor="show-password" 
@@ -168,6 +203,7 @@ export default function LoginPage() {
                   <Checkbox 
                     id="remember-me" 
                     className="text-gold border-green-600 focus:ring-gold"
+                    disabled={!firebaseInitialized}
                   />
                   <label 
                     htmlFor="remember-me" 
@@ -186,7 +222,7 @@ export default function LoginPage() {
               
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !firebaseInitialized}
                 className="w-full bg-gold hover:bg-gold/90 text-green-950 font-medium"
               >
                 {loading ? 'Connexion en cours...' : 'Se connecter'}
