@@ -2,10 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Ensure all pages are statically generated at build time
+  // Ensure all pages are properly included in the build
   output: 'standalone',
-  // Include all routes in the build
-  trailingSlash: false,
   // Enable static file serving for all routes
   async rewrites() {
     return [
@@ -35,13 +33,13 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, must-revalidate',
+            value: 'no-store',
           },
         ],
       },
     ];
   },
-  // Explicitly include these paths in the build
+  // Explicitly include all existing routes in the build
   exportPathMap: async function () {
     return {
       '/': { page: '/' },
@@ -50,6 +48,7 @@ const nextConfig = {
       '/client/profile': { page: '/client/profile' },
       '/client/resources': { page: '/client/resources' },
       '/client/messages': { page: '/client/messages' },
+      '/client/settings': { page: '/client/settings' },
       '/organizer/dashboard': { page: '/organizer/dashboard' },
       '/organizer/bookings': { page: '/organizer/bookings' },
       '/organizer/clients': { page: '/organizer/clients' },
