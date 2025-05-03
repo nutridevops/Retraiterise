@@ -5,8 +5,11 @@ export function middleware(request: NextRequest) {
   // Get the pathname from the URL
   const { pathname } = request.nextUrl;
 
-  // Ensure client and organizer routes are properly handled
-  if (pathname.startsWith('/client/') || pathname.startsWith('/organizer/')) {
+  // Ensure client, organizer, and admin routes are properly handled
+  if (pathname.startsWith('/client/') || 
+      pathname.startsWith('/organizer/') || 
+      pathname.startsWith('/admin/') ||
+      pathname.startsWith('/documentation/')) {
     // Allow the request to continue to the destination
     return NextResponse.next();
   }
@@ -21,7 +24,11 @@ export const config = {
     // Match all routes starting with client or organizer
     '/client/:path*',
     '/organizer/:path*',
+    // Also match admin routes
+    '/admin/:path*',
     // Also match documentation routes
     '/documentation/:path*',
+    // Match login route
+    '/login',
   ],
 };
