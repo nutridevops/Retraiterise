@@ -1,7 +1,7 @@
 // components/layouts/OrganizerLayout.tsx
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import { 
   Users, 
@@ -105,13 +105,15 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
 
   // Check if a path is active
   const isActive = (path: string) => {
-    return router.pathname === path || router.pathname.startsWith(`${path}/`);
+    // In App Router, we need to use window.location.pathname instead of router.pathname
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    return pathname === path || pathname.startsWith(`${path}/`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rise-dark-green to-rise-medium-green">
+    <div className="min-h-screen bg-white dark:bg-[#0A291C]">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-rise-dark-green/90 backdrop-blur-sm border-b border-rise-gold/20">
+      <header className="sticky top-0 z-50 bg-white dark:bg-[#0A291C] border-b border-gray-200 dark:border-[#c9a227]/20">
         <div className="px-4 flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <div className="flex items-center">
@@ -121,7 +123,7 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                 alt="Logo R.I.S.E" 
                 className="h-10 w-10 mr-2"
               />
-              <span className="text-rise-gold font-alta text-xl">R.I.S.E. Admin</span>
+              <span className="text-[#c9a227] font-alta text-xl">R.I.S.E. Admin</span>
             </Link>
           </div>
 
@@ -130,7 +132,7 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-white hover:bg-white/10"
+              className="text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"
               onClick={() => router.push('/organizer/resources/new')}
             >
               <Upload className="h-4 w-4 mr-1" />
@@ -139,11 +141,11 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-white hover:bg-white/10"
+              className="text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"
               onClick={() => router.push('/organizer/events/new')}
             >
               <Calendar className="h-4 w-4 mr-1" />
-              Create Event
+              New Event
             </Button>
           </div>
 
@@ -151,7 +153,7 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
           <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-white mr-2">
+                <Button variant="ghost" size="icon" className="text-gray-700 dark:text-white mr-2">
                   <Bell className="h-5 w-5" />
                   <span className="sr-only">Notifications</span>
                 </Button>
@@ -159,37 +161,32 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
               <DropdownMenuContent align="end" className="w-72">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className="max-h-80 overflow-y-auto py-2">
-                  <div className="px-4 py-2 text-sm">
-                    <div className="font-semibold">New client registration</div>
-                    <div className="text-muted-foreground text-xs">
-                      Marie Dubois has registered as a new client.
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1">1 hour ago</div>
+                <div className="max-h-80 overflow-y-auto">
+                  <div className="py-2 px-3 text-sm">
+                    <p className="font-medium">New client registration</p>
+                    <p className="text-muted-foreground text-xs">2 hours ago</p>
                   </div>
-                  <div className="px-4 py-2 text-sm bg-muted/30">
-                    <div className="font-semibold">Resource access alert</div>
-                    <div className="text-muted-foreground text-xs">
-                      5 clients haven't accessed any resources in the last 7 days.
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1">12 hours ago</div>
+                  <DropdownMenuSeparator />
+                  <div className="py-2 px-3 text-sm">
+                    <p className="font-medium">Resource downloaded</p>
+                    <p className="text-muted-foreground text-xs">Yesterday</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/organizer/notifications" className="w-full justify-center text-center cursor-pointer">
+                <div className="p-2">
+                  <Button variant="outline" size="sm" className="w-full">
                     View all notifications
-                  </Link>
-                </DropdownMenuItem>
+                  </Button>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
                     <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} />
-                    <AvatarFallback className="bg-rise-gold text-rise-dark-green">
+                    <AvatarFallback className="bg-[#c9a227] text-white dark:bg-[#c9a227] dark:text-[#0A291C]">
                       {getInitials()}
                     </AvatarFallback>
                   </Avatar>
@@ -199,22 +196,29 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/organizer/profile" className="flex cursor-pointer">
+                  <Link href="/organizer/profile">
                     <Users className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut} className="text-red-500 cursor-pointer">
+                <DropdownMenuItem asChild>
+                  <Link href="/organizer/settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="ml-2 md:hidden text-white"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-2 md:hidden text-gray-700 dark:text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
@@ -224,9 +228,9 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-rise-dark-green border-t border-rise-gold/20">
+          <div className="md:hidden bg-white dark:bg-[#0A291C] border-t border-gray-200 dark:border-[#c9a227]/20">
             <div className="px-2 pt-2 pb-4 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -234,8 +238,8 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                   href={item.path}
                   className={`block px-3 py-2 rounded-md text-base font-medium flex items-center ${
                     isActive(item.path)
-                      ? 'bg-rise-gold/20 text-rise-gold'
-                      : 'text-white hover:bg-rise-gold/10 hover:text-rise-gold'
+                      ? 'bg-[#c9a227]/20 text-[#c9a227] dark:bg-[#c9a227]/20 dark:text-[#c9a227]'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-[#c9a227]/10 dark:hover:text-[#c9a227]'
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -243,25 +247,25 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                   <span className="ml-3">{item.name}</span>
                 </Link>
               ))}
-              <div className="pt-4 pb-3 border-t border-rise-gold/20">
+              <div className="pt-4 pb-3 border-t border-gray-200 dark:border-[#c9a227]/20">
                 <div className="flex items-center px-3">
                   <div className="flex-shrink-0">
                     <Avatar>
                       <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} />
-                      <AvatarFallback className="bg-rise-gold text-rise-dark-green">
+                      <AvatarFallback className="bg-[#c9a227] text-white dark:bg-[#c9a227] dark:text-[#0A291C]">
                         {getInitials()}
                       </AvatarFallback>
                     </Avatar>
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium text-white">{user?.displayName || 'User'}</div>
-                    <div className="text-sm font-medium text-white/60">{user?.email || 'No email'}</div>
+                    <div className="text-base font-medium text-gray-800 dark:text-white">{user?.displayName || 'User'}</div>
+                    <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{user?.email || 'No email'}</div>
                   </div>
                 </div>
                 <div className="mt-3 px-2 space-y-1">
                   <Link
                     href="/organizer/profile"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-rise-gold/10 hover:text-rise-gold"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-[#c9a227]/10 dark:hover:text-[#c9a227]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Your Profile
@@ -272,7 +276,7 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                       handleSignOut();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-rise-gold/10 hover:text-red-300"
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100 dark:hover:bg-[#c9a227]/10"
                   >
                     Sign out
                   </button>
@@ -283,10 +287,10 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
         )}
       </header>
 
-      <div className="flex h-[calc(100vh-4rem)]">
+      <div className="flex">
         {/* Sidebar Navigation - Desktop */}
         <aside 
-          className={`hidden md:block bg-rise-dark-green border-r border-rise-gold/20 transition-all duration-300 ${
+          className={`hidden md:block bg-white dark:bg-[#0A291C] border-r border-gray-200 dark:border-[#c9a227]/20 h-[calc(100vh-4rem)] transition-all duration-300 ${
             isSidebarCollapsed ? 'w-16' : 'w-64'
           }`}
         >
@@ -299,8 +303,8 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
                     href={item.path}
                     className={`flex items-center py-2 px-3 rounded-md ${
                       isActive(item.path)
-                        ? 'bg-rise-gold/20 text-rise-gold'
-                        : 'text-white hover:bg-rise-gold/10 hover:text-rise-gold'
+                        ? 'bg-[#c9a227]/20 text-[#c9a227] dark:bg-[#c9a227]/20 dark:text-[#c9a227]'
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-[#c9a227]/10 dark:hover:text-[#c9a227]'
                     }`}
                   >
                     <div className="flex items-center justify-center">
@@ -317,7 +321,7 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full justify-center text-white hover:bg-rise-gold/10 hover:text-rise-gold"
+                className="w-full justify-center text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-[#c9a227]/10 dark:hover:text-[#c9a227]"
                 onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               >
                 {isSidebarCollapsed ? (
@@ -334,27 +338,10 @@ const OrganizerLayout: React.FC<OrganizerLayoutProps> = ({ children }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto p-6">
           {children}
         </main>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-rise-dark-green border-t border-rise-gold/20 py-4 px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center mb-4 md:mb-0">
-            <img 
-              src="/images/rise-logo-new.png" 
-              alt="Logo R.I.S.E" 
-              className="h-8 w-8 mr-2"
-            />
-            <span className="text-white/60 text-sm">R.I.S.E. Administration Panel</span>
-          </div>
-          <div className="text-white/60 text-sm">
-            <span>&copy; {new Date().getFullYear()} R.I.S.E. All rights reserved.</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

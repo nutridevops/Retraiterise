@@ -1,7 +1,7 @@
 // components/layouts/ClientLayout.tsx
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import { 
   BookOpen, 
@@ -65,6 +65,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     }
   ];
 
+  // Function to get user's initials for avatar fallback
   const getInitials = () => {
     if (!user?.displayName) return '?';
     
@@ -91,7 +92,9 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
   // Check if a path is active
   const isActive = (path: string) => {
-    return router.pathname === path || router.pathname.startsWith(`${path}/`);
+    // In App Router, we need to use window.location.pathname instead of router.pathname
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    return pathname === path || pathname.startsWith(`${path}/`);
   };
 
   return (
