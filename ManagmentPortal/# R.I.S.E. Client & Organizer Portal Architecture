@@ -1,0 +1,289 @@
+# R.I.S.E. Client & Organizer Portal Architecture
+
+## Overview
+
+This document outlines the architecture for implementing a dual-portal system for the R.I.S.E. retreat website:
+1. **Client Portal**: For paid participants to access resources, book sessions, and communicate with organizers
+2. **Organizer Portal**: For the R.I.S.E. team to manage participants, content, and events
+
+## Technology Stack
+
+- **Frontend**: React, TypeScript, Tailwind CSS (existing)
+- **UI Components**: shadcn/ui (existing)
+- **Authentication**: Firebase Authentication
+- **Database**: Firebase Firestore
+- **Storage**: Firebase Storage (for PDFs and resources)
+- **Calendly Integration**: Embedded Calendly for appointment scheduling
+
+## Authentication Flow
+
+### Client Authentication
+- Login icon in the top-right corner of the navigation bar
+- Registration by invitation only (email link)
+- Password reset functionality
+- Session persistence with secure token storage
+
+### Organizer Authentication
+- Dedicated login page accessed via footer link "Rise Team Login"
+- Role-based permissions system
+- Enhanced security (IP restrictions optional)
+- Multi-factor authentication option for organizers
+
+## Database Schema
+
+### Users Collection
+```typescript
+interface User {
+  uid: string;               // Firebase Auth UID
+  email: string;             // User email
+  displayName: string;       // Full name
+  role: 'client' | 'organizer' | 'admin';
+  createdAt: Timestamp;      // Account creation date
+  lastLogin: Timestamp;      // Last login timestamp
+  profileImageUrl?: string;  // Optional profile image
+}
+```
+
+### Resources Collection
+```typescript
+interface Resource {
+  id: string;                // Resource ID
+  title: string;             // Resource title
+  description: string;       // Resource description
+  type: 'pdf' | 'video' | 'link' | 'printable';
+  url: string;               // Storage URL or external link
+  thumbnailUrl?: string;     // Optional thumbnail
+  tags: string[];            // For categorization
+  createdAt: Timestamp;      // Creation date
+  updatedAt: Timestamp;      // Last update
+  visibleTo: 'all' | string[]; // Access control (all clients or specific UIDs)
+}
+```
+
+### Messages Collection
+```typescript
+interface Message {
+  id: string;                // Message ID
+  senderId: string;          // Sender UID
+  receiverId: string;        // Receiver UID (organizer or client)
+  subject: string;           // Message subject
+  content: string;           // Message content
+  read: boolean;             // Read status
+  createdAt: Timestamp;      // Sent timestamp
+  attachments?: {            // Optional attachments
+    name: string;
+    url: string;
+  }[];
+}
+```
+
+### Events Collection
+```typescript
+interface Event {
+  id: string;                // Event ID
+  title: string;             // Event title
+  description: string;       // Event description
+  startTime: Timestamp;      // Start time
+  endTime: Timestamp;        // End time
+  type: 'zoom' | 'in-person' | 'workshop';
+  location?: string;         // Location or Zoom link
+  organizers: string[];      // Organizer UIDs
+  participants?: string[];   // Participant UIDs (if limited)
+  maxParticipants?: number;  // Optional capacity limit
+  createdAt: Timestamp;      // Creation date
+  updatedAt: Timestamp;      // Last update
+}
+```
+
+## Page Structure & Components
+
+### Shared Components
+- `AuthLayout.tsx`: Wrapping layout for auth pages
+- `ProtectedRoute.tsx`: Component to protect routes based on authentication
+- `ResourceCard.tsx`: Card component for displaying resources
+- `Notification.tsx`: Notification component
+- `UserAvatar.tsx`: Avatar component with fallback
+
+### Client Portal Pages
+1. **Dashboard (`/client/dashboard`)**
+   - Welcome message
+   - Quick access to recent resources
+   - Upcoming events
+   - Unread messages notification
+
+2. **Resources (`/client/resources`)**
+   - Categorized resources (PDFs, videos, printables)
+   - Search functionality
+   - Filter by category
+   - Download/view options
+
+3. **Booking (`/client/booking`)**
+   - Embedded Calendly interface
+   - Booking history
+   - Upcoming appointments
+
+4. **Messages (`/client/messages`)**
+   - Inbox view
+   - Compose message interface
+   - Message history
+
+5. **Profile (`/client/profile`)**
+   - Personal information
+   - Password change
+   - Notification preferences
+
+### Organizer Portal Pages
+1. **Dashboard (`/organizer/dashboard`)**
+   - Overview statistics
+   - Recent client activity
+   - Pending messages
+   - Quick links to management sections
+
+2. **Clients (`/organizer/clients`)**
+   - Client list with search and filter
+   - Client details view
+   - Progress tracking
+   - Communication history
+
+3. **Resources (`/organizer/resources`)**
+   - Resource management
+   - Upload interface
+   - Edit/delete functionality
+   - Access management
+
+4. **Events (`/organizer/events`)**
+   - Event calendar
+   - Create/edit events
+   - Participant management
+   - Zoom integration for virtual events
+
+5. **Bookings (`/organizer/bookings`)**
+   - Calendly sync
+   - Booking oversight
+   - Calendar management
+
+6. **Messages (`/organizer/messages`)**
+   - Global inbox
+   - Client-specific conversations
+   - Template responses
+
+7. **Settings (`/organizer/settings`)**
+   - Portal configuration
+   - User management
+   - System preferences
+
+## UI Designs
+
+### Client Portal Login
+- Minimalist login form with the R.I.S.E. gold color scheme
+- Elegant error handling
+- "Remember me" functionality
+- Password reset option
+
+### Client Dashboard
+- Clean, card-based layout
+- Gold accents on dark green background (matching R.I.S.E. branding)
+- Prominent resource access
+- Clear event timeline
+
+### Organizer Dashboard
+- Data-focused layout with key metrics
+- Client activity feed
+- Task management section
+- Quick access to all portal features
+
+## Implementation Plan
+
+### Phase 1: Authentication & Basic Structure
+- Implement Firebase Authentication
+- Create login interfaces for both portals
+- Set up protected routes
+- Implement basic dashboard shells
+
+### Phase 2: Resource Management
+- Implement file storage integration
+- Create resource upload/management for organizers
+- Develop resource browsing/downloading for clients
+
+### Phase 3: Messaging System
+- Build messaging database structures
+- Create message composition interface
+- Implement notifications
+
+### Phase 4: Calendly & Events Integration
+- Integrate Calendly for booking management
+- Build event creation and management
+- Implement event participation
+
+### Phase 5: Analytics & Refinement
+- Add analytics for organizer insights
+- Implement client progress tracking
+- Refine UI/UX based on feedback
+
+## Security Considerations
+
+- Implement proper Firebase security rules
+- Ensure role-based access control
+- Encrypt sensitive data
+- Regular security audits
+- GDPR compliance for EU participants
+
+## Calendly Integration
+
+For the booking system, we'll use Calendly's embed API:
+
+```typescript
+// Example Calendly integration component
+import React from 'react';
+import { useAuth } from '@/lib/auth';
+
+const CalendlyBooking: React.FC = () => {
+  const { user } = useAuth();
+  
+  React.useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <div className="calendly-inline-widget"
+      data-url={`https://calendly.com/rise-team/coaching?name=${user?.displayName}&email=${user?.email}`}
+      style={{minWidth: '320px', height: '700px'}}
+    />
+  );
+};
+
+export default CalendlyBooking;
+```
+
+## Performance Optimization
+
+- Implement lazy loading for resources
+- Use Firebase query pagination
+- Optimize image and PDF loading
+- Code splitting for improved load times
+
+## Mobile Responsiveness
+
+Both portals should be fully responsive:
+- Adaptive layouts for dashboard components
+- Touch-friendly interfaces for resource browsing
+- Simplified navigation on small screens
+
+## Additional Recommendations
+
+1. **Custom Analytics**: Consider implementing custom analytics to track resource usage and client engagement.
+
+2. **Email Notifications**: Set up email notifications for new messages, upcoming events, and resource additions.
+
+3. **Progressive Web App**: Consider making the client portal a Progressive Web App for improved mobile experience.
+
+4. **Offline Access**: Implement offline access for key resources using service workers.
+
+5. **Multilingual Support**: Add support for multiple languages if you have international clients.
