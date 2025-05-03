@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     const { name, email, phone, message } = data
 
     // Send the email using Resend with the React template
+    // Note: Using 'replyTo' property for Resend v4+
     const { data: emailData, error } = await resend.emails.send({
       from: "RISE Retreat <contact@riseretreat.com>", // You can customize this
       to: ["chris@codenutri.com", "info.neuroperformancetraining@gmail.com"],
