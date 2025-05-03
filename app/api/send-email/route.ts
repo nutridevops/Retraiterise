@@ -2,11 +2,18 @@ import { NextResponse } from "next/server"
 import { Resend } from "resend"
 import EmailTemplate from "./email-template"
 
-// Initialize Resend with your API key
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend with your API key or a placeholder for build time
+const resendApiKey = process.env.RESEND_API_KEY || 'placeholder_for_build'
+const resend = new Resend(resendApiKey)
 
 export async function POST(request: Request) {
   try {
+    // Check if we have a real API key before proceeding
+    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 'placeholder_for_build') {
+      console.error("Missing Resend API key in environment variables")
+      return NextResponse.json({ error: "Email service not configured" }, { status: 500 })
+    }
+    
     const data = await request.json()
     const { name, email, phone, message } = data
 
@@ -18,7 +25,7 @@ export async function POST(request: Request) {
       to: ["chris@codenutri.com", "info.neuroperformancetraining@gmail.com"],
       subject: `Nouveau message de ${name} - Formulaire RISE Retreat`,
       react: EmailTemplate({ name, email, phone, message }),
-      ...(email ? { reply_to: email } as any : {}),
+      ...(email ? { replyTo: email } : {}),
     })
 
     if (error) {
