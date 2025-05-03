@@ -52,7 +52,7 @@ interface BookingFormProps {
   onSessionTypeChange: (sessionTypeId: string) => void;
   onTimeSlotChange: (timeSlot: TimeSlot | null) => void;
   onNotesChange: (notes: string) => void;
-  onSubmit: () => Promise<boolean>;
+  onSubmit: () => Promise<boolean | void>;
 }
 
 export function BookingForm({
