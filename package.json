@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:all": "next build --config next-build.config.js",
     "start": "next start",
     "lint": "next lint"
   },

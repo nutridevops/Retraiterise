@@ -1,13 +1,22 @@
 {
   "version": 2,
-  "buildCommand": "next build",
+  "buildCommand": "npm run build:all",
   "devCommand": "next dev",
   "installCommand": "npm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
+  "routes": [
+    { "src": "/client/(.*)", "dest": "/client/$1" },
+    { "src": "/organizer/(.*)", "dest": "/organizer/$1" },
+    { "src": "/admin/(.*)", "dest": "/admin/$1" },
+    { "src": "/documentation/(.*)", "dest": "/documentation/$1" },
+    { "src": "/login", "dest": "/login" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
   "github": {
-    "silent": true,
+    "silent": false,
     "autoAlias": true,
+    "autoJobCancelation": true,
     "enabled": true
   },
   "git": {
@@ -15,5 +24,7 @@
       "main": true
     }
   },
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "projectId": "prj_76WznMx2gGmkEIR1sbbxLXMb9c9L",
+  "orgId": "team_uOy2JWGmwdIOMVL0scz4sQdf"
 }
