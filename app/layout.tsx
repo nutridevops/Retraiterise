@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Montserrat, Cinzel } from 'next/font/google'
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -21,10 +21,15 @@ const cinzel = Cinzel({
   display: "swap",
 })
 
+// Viewport configuration (moved from metadata)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: "R.I.S.E Retreat | Résilience · Intuition · Strength · Energy",
   description: "Une retraite de 2 jours pour exceller dans votre carrière sans sacrifier votre bien-être personnel",
-  viewport: "width=device-width, initial-scale=1",
   generator: 'v0.dev',
   icons: [
     { rel: 'icon', url: '/favicon/favicon_io/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
