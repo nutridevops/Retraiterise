@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Card,
   CardContent,
@@ -21,7 +22,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { LogIn, Loader2, Mail, Lock, ArrowRight, Home } from 'lucide-react';
+import { LogIn, Loader2, Mail, Lock, ArrowRight, Home, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -29,6 +30,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'login' | 'reset'>('login');
+  const [showPassword, setShowPassword] = useState(false);
   
   const { signIn, resetPassword, user } = useAuth();
   const { toast } = useToast();
@@ -120,6 +122,10 @@ export default function LoginPage() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
       <div className="absolute top-4 left-4">
@@ -169,13 +175,38 @@ export default function LoginPage() {
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
-                      className="pl-10"
+                      className="pl-10 pr-10"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       disabled={isLoading}
                     />
+                    <button 
+                      type="button"
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-gray-700"
+                      onClick={togglePasswordVisibility}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <Checkbox 
+                      id="show-password" 
+                      checked={showPassword} 
+                      onCheckedChange={() => setShowPassword(!showPassword)}
+                    />
+                    <Label 
+                      htmlFor="show-password" 
+                      className="text-sm cursor-pointer"
+                    >
+                      Afficher le mot de passe
+                    </Label>
                   </div>
                 </div>
               </CardContent>
