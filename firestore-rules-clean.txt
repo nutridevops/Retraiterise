@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Base user document access
+    match /users/{userId} {
+      allow read: if request.auth.uid == userId;
+      
+      // Allow creation of user documents for organizer accounts
+      allow create: if true; // Temporarily allow creation of user documents
+      
+      // Allow users to update their own document but not change role
+      allow update: if request.auth.uid == userId && 
+                     request.resource.data.role == resource.data.role;
+    }
+    
+    // Organizers collection - strict access control
+    match /organizers/{organizerId} {
+      // Only admins and the organizer themselves can read their data
+      allow read: if request.auth != null && 
+                    (request.auth.uid == organizerId || 
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin");
+      
+      // Allow creation of organizer accounts from the admin page
+      allow create: if true; // Temporarily allow creation of organizer accounts
+      
+      // Only admins can write to organizer documents
+      allow update, delete: if request.auth != null && 
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+      
+      // Allow organizers to update their own non-critical fields
+      allow update: if request.auth != null && 
+                      request.auth.uid == organizerId &&
+                      request.resource.data.role == resource.data.role &&
+                      request.resource.data.isActive == resource.data.isActive;
+    }
+    
+    // Resource access
+    match /resources/{resourceId} {
+      allow read: if request.auth != null && 
+                    (resource.data.visibleTo == "all" || 
+                     resource.data.visibleTo[request.auth.uid] == true ||
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "organizer" ||
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin");
+      
+      // Only organizers can create/update/delete resources
+      allow write: if request.auth != null && 
+                     (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "organizer" ||
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin");
+    }
+    
+    // Messages
+    match /messages/{messageId} {
+      allow read: if request.auth != null && 
+                    (resource.data.senderId == request.auth.uid || 
+                     resource.data.receiverId == request.auth.uid);
+      
+      allow create: if request.auth != null && 
+                      request.resource.data.senderId == request.auth.uid;
+      
+      // Only the original sender can update their own messages
+      allow update: if request.auth != null && 
+                      resource.data.senderId == request.auth.uid;
+    }
+    
+    // Events
+    match /events/{eventId} {
+      allow read: if request.auth != null;
+      
+      // Only organizers can create/update/delete events
+      allow write: if request.auth != null && 
+                     (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "organizer" ||
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin");
+    }
+  }
+}

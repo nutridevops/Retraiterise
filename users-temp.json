@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "localId": "",
+      "email": "nutridevops@gmail.com",
+      "emailVerified": true,
+      "passwordHash": "JDJhJDEwJDhkMGE2NjNhZGZmZjlkZjFmOTk2YmZmNmRhYmJmMjAy",
+      "displayName": "Chris Massamba",
+      "createdAt": 1745936193019,
+      "lastSignedInAt": 1745936193019
+    }
+  ]
+}
