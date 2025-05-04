@@ -88,9 +88,9 @@ export default function LoginPage() {
   };
   
   return (
-    <div className="min-h-screen bg-green-950 text-white flex flex-col">
+    <div className="min-h-screen bg-green-50 text-green-950 flex flex-col">
       {/* Header */}
-      <header className="py-6 px-4 md:px-8 flex justify-between items-center border-b border-green-900 bg-green-900">
+      <header className="py-6 px-4 md:px-8 flex justify-between items-center border-b border-green-200 bg-green-900 text-white">
         <Link href="/" className="flex items-center space-x-2">
           <div className="relative w-8 h-8">
             <Image 
@@ -114,18 +114,18 @@ export default function LoginPage() {
       </header>
       
       {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center p-4 md:p-8 bg-gradient-to-b from-green-950 to-green-900">
+      <main className="flex-1 flex items-center justify-center p-4 md:p-8 bg-gradient-to-b from-green-50 to-green-100">
         <div className="w-full max-w-md">
-          <div className="bg-green-800 rounded-lg shadow-xl p-6 md:p-8 border border-gold/30">
+          <div className="bg-white rounded-lg shadow-xl p-6 md:p-8 border border-green-200">
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-bold text-gold">Connexion Client</h1>
-              <p className="text-green-100 mt-2">
+              <h1 className="text-2xl font-bold text-green-800">Connexion Client</h1>
+              <p className="text-green-600 mt-2">
                 Accédez à votre espace personnel
               </p>
             </div>
             
             {!firebaseInitialized && (
-              <div className="p-4 rounded bg-red-800 text-red-100 text-sm mb-6 border border-red-600">
+              <div className="p-4 rounded bg-red-50 text-red-700 text-sm mb-6 border border-red-200">
                 <p className="font-semibold text-base mb-1">Erreur de configuration Firebase</p>
                 <p>La connexion à Firebase n'a pas pu être établie.</p>
                 <p>Veuillez réessayer dans quelques instants.</p>
@@ -135,13 +135,13 @@ export default function LoginPage() {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {loginError && firebaseInitialized && (
-                <div className="p-3 rounded bg-red-800 text-red-100 text-sm border border-red-600">
+                <div className="p-3 rounded bg-red-50 text-red-700 text-sm border border-red-200">
                   {loginError}
                 </div>
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-green-100 font-medium">
+                <Label htmlFor="email" className="text-green-700 font-medium">
                   Email
                 </Label>
                 <Input
@@ -151,13 +151,13 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="votre@email.com"
                   required
-                  className="bg-green-700 border-green-600 focus:border-gold focus:ring-gold text-white"
+                  className="bg-green-50 border-green-300 focus:border-green-500 focus:ring-green-500 text-green-900"
                   disabled={!firebaseInitialized}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-green-100 font-medium">
+                <Label htmlFor="password" className="text-green-700 font-medium">
                   Mot de passe
                 </Label>
                 <div className="relative">
@@ -168,7 +168,7 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Votre mot de passe"
                     required
-                    className="bg-green-700 border-green-600 focus:border-gold focus:ring-gold pr-10 text-white"
+                    className="bg-green-50 border-green-300 focus:border-green-500 focus:ring-green-500 pr-10 text-green-900"
                     disabled={!firebaseInitialized}
                   />
                   <button
@@ -178,9 +178,9 @@ export default function LoginPage() {
                     disabled={!firebaseInitialized}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-green-200" />
+                      <EyeOff className="h-5 w-5 text-green-500" />
                     ) : (
-                      <Eye className="h-5 w-5 text-green-200" />
+                      <Eye className="h-5 w-5 text-green-500" />
                     )}
                   </button>
                 </div>
@@ -191,12 +191,12 @@ export default function LoginPage() {
                   id="show-password" 
                   checked={showPassword}
                   onCheckedChange={() => setShowPassword(!showPassword)}
-                  className="text-gold border-green-600 focus:ring-gold"
+                  className="text-green-600 border-green-400 focus:ring-green-500"
                   disabled={!firebaseInitialized}
                 />
                 <label 
                   htmlFor="show-password" 
-                  className="ml-2 text-sm text-green-100 cursor-pointer"
+                  className="ml-2 text-sm text-green-700 cursor-pointer"
                 >
                   Afficher le mot de passe
                 </label>
@@ -206,19 +206,19 @@ export default function LoginPage() {
                 <div className="flex items-center">
                   <Checkbox 
                     id="remember-me" 
-                    className="text-gold border-green-600 focus:ring-gold"
+                    className="text-green-600 border-green-400 focus:ring-green-500"
                     disabled={!firebaseInitialized}
                   />
                   <label 
                     htmlFor="remember-me" 
-                    className="ml-2 text-sm text-green-100 cursor-pointer"
+                    className="ml-2 text-sm text-green-700 cursor-pointer"
                   >
                     Se souvenir de moi
                   </label>
                 </div>
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-gold hover:underline"
+                  className="text-sm text-green-600 hover:text-green-800 hover:underline"
                 >
                   Mot de passe oublié?
                 </Link>
@@ -227,15 +227,15 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={loading || !firebaseInitialized}
-                className="w-full bg-gold hover:bg-gold/90 text-green-950 font-medium"
+                className="w-full bg-green-700 hover:bg-green-800 text-white font-medium"
               >
                 {loading ? 'Connexion en cours...' : 'Se connecter'}
               </Button>
               
               <div className="text-center mt-4">
-                <p className="text-sm text-green-100">
+                <p className="text-sm text-green-700">
                   Pas encore de compte?{' '}
-                  <Link href="/register" className="text-gold hover:underline">
+                  <Link href="/register" className="text-green-600 hover:text-green-800 hover:underline">
                     Créer un compte
                   </Link>
                 </p>
@@ -246,7 +246,7 @@ export default function LoginPage() {
       </main>
       
       {/* Footer */}
-      <footer className="py-6 px-4 md:px-8 border-t border-green-900 text-center text-sm text-green-300 bg-green-900">
+      <footer className="py-6 px-4 md:px-8 border-t border-green-200 text-center text-sm text-green-600 bg-green-900 text-white">
         <p> {new Date().getFullYear()} Retraite R.I.S.E. Tous droits réservés.</p>
       </footer>
     </div>
